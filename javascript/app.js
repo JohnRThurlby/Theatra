@@ -2,6 +2,8 @@
 
 $(document).ready(function() {
 
+$('.carousel').carousel();
+
   $(function() {
     
     // contact form animations
@@ -147,5 +149,7 @@ $(document).ready(function() {
         }, $msgShowTime);
       }
   });
+
+
 
   });
