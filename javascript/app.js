@@ -2,7 +2,30 @@
 
 $(document).ready(function() {
 
-$('.carousel').carousel();
+    var gifDiv = " "
+        gifImage = " "
+        carouString = " " 
+        carouArr = []
+
+$(function(){
+    // themoviedb url
+        
+    var queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&primary_release_date.gte=2018-02-01&primary_release_date.lte=2018-03-31";
+        $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+        
+        var results = response.results; //shows results of gifs
+                                        
+        for (var i=0; i < 18; i++){
+                
+			    $("#image" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + results[i].poster_path ); 
+                $("#image" + i).addClass("image");
+				
+            }
+        
+    })
 
   $(function() {
     
@@ -149,7 +172,8 @@ $('.carousel').carousel();
         }, $msgShowTime);
       }
   });
+});
+});
 
 
-
-  });
+  
