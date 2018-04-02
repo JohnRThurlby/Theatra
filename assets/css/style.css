@@ -4,16 +4,11 @@
 body { 
   margin: 0; 
   padding: 0; 
-  background: #333;
+  background: rgb(228, 216, 216);
   font-family: Raleway; 
   text-transform: uppercase; 
   font-size: 11px; 
 }
-
-.jumbotron {
-    max-height: 100px;    
-}
-
 h1{ margin: 0; }
 #contact { 
   -webkit-user-select: none; /* Chrome/Safari */        
@@ -283,9 +278,3 @@ span.psw {
 .form-control {
   border-radius: 0px;
 }
-
-
-.item {
-    width: 200px; height: 200px;
-    }
-
