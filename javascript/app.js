@@ -173,6 +173,163 @@ $(function(){
       }
   });
 });
+
+$("#signUp").on("click", function(event){
+
+    event.preventDefault();
+
+    console.log("in sign up")
+
+    //get name input from text box
+    firstName = $("#inputFirst4").val().trim();
+
+    if (firstName == ""){   //nothing entered in text box.
+        dialogTitle = "First Name"
+        dialogItem = "#addName"
+        displayPopup()
+        return false; // added so user cannot add a blank train name
+    }
+    
+    //get middle initial input from text box
+    midInit = $("#inputMiddle4").val().trim();
+
+    //if (midInit == ""){   //nothing entered in text box.
+    //    dialogTitle = "Middle Initial"
+    //    dialogItem = "#addMid"
+    //    displayPopup()
+    //    return false; // added so user cannot add a blank destination
+    //}
+    //get start time input from text box
+    lastName = $("#inputLast4").val().trim();
+            
+    if(lastName == "") {
+        dialogTitle = "Last Name"
+        dialogItem = "#lastName"
+        displayPopup()
+        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+    }
+
+    //get start time input from text box
+    emailIn = $("#inputEmail").val().trim();
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            
+    if(emailIn == "" || ! emailIn.match(regex)) {
+        dialogTitle = "Email"
+        dialogItem = "#email"
+        displayPopup()
+        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+    }
+
+    //get frequency input from text box
+    userZip = $("#inputZip").val().trim();
+        
+    if (userZip == ""){   //nothing entered in text box.
+        dialogTitle = "Zip Code"
+        dialogItem = "#zipCode"
+        displayPopup()
+        return false; // added so user cannot add a blank frequency
+    }
+    else if ( $.isNumeric(userZip) != true) {
+        dialogTitle = "Zip Code"
+        dialogItem = "#zipCode"
+        displayPopup()
+        return false; // added so user must enter a numeric frequency        
+    }
+    else {
+        var client = new XMLHttpRequest();
+        client.open("GET", '"http://api.zippopotam.us/us/' + userZip + '"', true);
+        client.onreadystatechange = function() {
+	    if(client.readyState == 4) {
+		    alert(client.responseText);
+	};
+    };
+    }  
+
+    //get start time input from text box
+    userName = $("#inputusername4").val().trim();
+            
+    if(userName == "") {
+        dialogTitle = "User Name"
+        dialogItem = "#userName"
+        displayPopup()
+        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+    }
+
+    //get start time input from text box
+    userPass1 = $("#inputPassword4").val().trim();
+            
+    if(userPass1 == "") {
+        dialogTitle = "Password"
+        dialogItem = "#passWord"
+        displayPopup()
+        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+    }
+
+    //get start time input from text box
+    userPass2 = $("#inputPassword42").val().trim();
+            
+    if(userPass2 == "" || userPass2 !== userPass1 || userPass2 === userName) {
+        dialogTitle = "Password"
+        dialogItem = "#passWord"
+        displayPopup()
+        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+    }
+    // Push into firebase DB
+
+    dataRef.ref("/users").push({
+        firstName: firstName,
+        middleInit: midInit,
+        lastName: lastName,  
+        email: emailIn,
+        zipCode: userZip,
+        userId: userName,
+        userPassword: userPass1                      
+    });
+        
+    // clear out page text boxes
+
+    
+
+    $("#inputFirst4").val("");
+    $("#inputMiddle4").val("");
+    $("#inputLast4").val("");
+    $("#inputEmail").val("");
+    $("#inputZip").val("");
+    $("#inputusername4").val("");
+    $("#inputPassword4").val("");
+    $("#inputPassword42").val("");
+
+    dialogTitle = "User Added"
+    dialogItem = "#userAdded"
+    displayPopup()
+    
+});
+// Function to display dialog boxes for mostly errors
+function displayPopup() {
+    $(dialogItem).dialog({
+        modal: true,
+        autoOpen: false,
+        title: dialogTitle,
+        width: 400,
+        height: 150
+    });
+    $(dialogItem).dialog('open');
+}
+
+var states_array_with_keys = {'Texas 1': 'Texas', 'Alabama 2' : 'Alabama', 'Illinois 3' : 'Illinois'};
+ 
+$('#sbt_populate_select_with_keys').click(function(e) {
+ 
+	$.each(states_array_with_keys, function(val, text) {
+		$('#states_with_keys').append( $('<option></option>').val(val).html(text) )
+	}); 
+ 
+	e.preventDefault();
+});
+
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+  }
 });
 
 
