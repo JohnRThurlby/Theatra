@@ -1,14 +1,20 @@
-* { box-sizing: border-box;}
+* { box-sizing: border-box;
+    margin: 0px;}
 
 @import "https://fonts.googleapis.com/css?family=Raleway";
 body { 
   margin: 0; 
   padding: 0; 
-  background: rgb(228, 216, 216);
+  background: lightgray;
   font-family: Raleway; 
   text-transform: uppercase; 
   font-size: 11px; 
+  background-image: url("../../images/overlay.png"), linear-gradient(45deg, #5b5a9e 20%, #55a5c2 60%, #edf2a8);
+  
+  
 }
+
+
 h1{ margin: 0; }
 #contact { 
   -webkit-user-select: none; /* Chrome/Safari */        
@@ -26,12 +32,22 @@ h1{ margin: 0; }
   border: 1px solid white;
 }
 
+#mainlogo {
+
+    display: contents;
+}
+
+#mainpagecarousel {
+
+    display: contents;
+}
+
+
 #contact:hover { background: #666; }
 #contact:active { background: #444; }
 
 #contactForm { 
   display: none;
-
   border: 6px solid salmon; 
   padding: 2em;
   width: 400px;
@@ -71,13 +87,15 @@ textarea { height: 80px; resize: none; }
 
 /* Bordered form */
 form {
-  border: 3px solid #f1f1f1;
+  padding: 30px;  
+  border: 1px solid #f1f1f1;
+  opacity: 0.8;
 }
 
 /* Full-width inputs */
 input[type=text], input[type=password] {
   width: 100%;
-  padding: 12px 20px;
+  padding: 7px 20px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
@@ -86,18 +104,28 @@ input[type=text], input[type=password] {
 
 /* Set a style for all buttons */
 button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
+    background: rgb(192, 192, 240);
+    border: 1px solid gray;
+    border-radius: 0.25rem;
+    color: inherit;
+    display: block;
+    outline: 0;
+    padding: 0 0.75rem;
+    text-decoration: none;
+    width: 100%;
+    opacity: 0.8;
+    z-index: 9999;
+    background-color: #007CB8;
+}
+
+.btn {
+    background-color: #007CB8;
 }
 
 /* Add a hover effect for buttons */
 button:hover {
-  opacity: 0.8;
+    color: rgb(97, 97, 107);
+    opacity: 0.8;
 }
 
 /* Extra style for the cancel button (red) */
@@ -122,6 +150,11 @@ img.avatar {
 /* Add padding to containers */
 .container {
   padding: 16px;
+  z-index: 99999;
+  background-image: url("../../images/overlay.png"), linear-gradient(45deg, #5b5a9e 20%, #55a5c2 60%, #edf2a8);
+  margin-bottom: 30px;
+  margin-top: 30px;
+
 }
 
 /* The "Forgot password" text */
@@ -145,6 +178,7 @@ span.psw {
 
 * {
     font-family: 'Roboto', sans-serif;
+    color: white;
 }
 
 #login-modal .modal-dialog {
@@ -245,7 +279,7 @@ span.psw {
 }
 
 .btn {
-    border-radius: 0px;
+    border-radius: 6px;
 }
 
 .btn:focus,
@@ -276,5 +310,17 @@ span.psw {
 }
 
 .form-control {
-  border-radius: 0px;
+  border-radius: 6px;
+}
+
+footer {
+
+    background:white;
+    text-align: center;
+    padding: 25px;
+    color: black
+}
+
+header {
+    background: white;
 }
