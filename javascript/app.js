@@ -6,6 +6,30 @@ $(document).ready(function() {
         gifImage = " "
         carouString = " " 
         carouArr = []
+        usernameCheck = " "
+        userpassCheck = " "
+
+        // Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyDrx5HgfNPm6bCsedzhCHGhS1qDwIPmW3w",
+		authDomain: "robs-ucf.firebaseapp.com",
+		databaseURL: "https://robs-ucf.firebaseio.com",
+		projectId: "robs-ucf",
+		storageBucket: "robs-ucf.appspot.com",
+		messagingSenderId: "83769074358"
+	  };
+	firebase.initializeApp(config);
+
+    var dataRef = firebase.database();
+    
+    var url  = window.location.href; 
+    console.log(url)
+    if (url.indexOf("ticket.html") >= 0) {
+       ticketPage()
+    }
+    if (url.indexOf("Home.html") >= 0) {
+        homePage()
+     }
 
 $(function(){
     // themoviedb url
@@ -15,17 +39,20 @@ $(function(){
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        
+
+        console.log(response)
+
         var results = response.results; //shows results of gifs
                                         
-        for (var i=0; i < 18; i++){
+        for (var i=0; i < results.length; i++){
                 
-			    $("#image" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + results[i].poster_path ); 
+			    $("#image" + i).attr("src", "http://image.tmdb.org/t/p/w342//" + results[i].poster_path ); 
                 $("#image" + i).addClass("image");
 				
             }
         
     })
+    
 
   $(function() {
     
@@ -100,10 +127,14 @@ $(function(){
           switch(this.id) {
               case "login-form":
                   var $lg_username=$('#login_username').val();
+                  usernameCheck = $('#login_username').val();
                   var $lg_password=$('#login_password').val();
+                  userpassCheck = $('#login_password').val();
                   if ($lg_username == "ERROR") {
                       msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
                   } else {
+                      console.log("in login")
+                      checkuserName();
                       msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                   }
                   return false;
@@ -124,6 +155,7 @@ $(function(){
                   if ($rg_username == "ERROR") {
                       msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "error", "glyphicon-remove", "Register error");
                   } else {
+                      // add passwrod check in here
                       msgChange($('#div-register-msg'), $('#icon-register-msg'), $('#text-register-msg'), "success", "glyphicon-ok", "Register OK");
                   }
                   return false;
@@ -175,7 +207,6 @@ $(function(){
 });
 
 $("#signUp").on("click", function(event){
-
     event.preventDefault();
 
     console.log("in sign up")
@@ -193,13 +224,7 @@ $("#signUp").on("click", function(event){
     //get middle initial input from text box
     midInit = $("#inputMiddle4").val().trim();
 
-    //if (midInit == ""){   //nothing entered in text box.
-    //    dialogTitle = "Middle Initial"
-    //    dialogItem = "#addMid"
-    //    displayPopup()
-    //    return false; // added so user cannot add a blank destination
-    //}
-    //get start time input from text box
+   //get start time input from text box
     lastName = $("#inputLast4").val().trim();
             
     if(lastName == "") {
@@ -236,14 +261,22 @@ $("#signUp").on("click", function(event){
         return false; // added so user must enter a numeric frequency        
     }
     else {
+        console.log(userZip)
         var client = new XMLHttpRequest();
-        client.open("GET", '"http://api.zippopotam.us/us/' + userZip + '"', true);
+        client.open("GET", 'http://api.zippopotam.us/us/' + userZip, true);
+        console.log("after zip  call")
         client.onreadystatechange = function() {
-	    if(client.readyState == 4) {
-		    alert(client.responseText);
-	};
+	    if(client.readyState == 4 && client.status == 404) {
+            console.log("in ready state")
+            dialogTitle = "Zip Code"
+            dialogItem = "#zipCode"
+            displayPopup()
+            return false; 
+		    //alert(client.responseText);
+    }};
+    client.send();
     };
-    }  
+    //}  
 
     //get start time input from text box
     userName = $("#inputusername4").val().trim();
@@ -268,7 +301,7 @@ $("#signUp").on("click", function(event){
     //get start time input from text box
     userPass2 = $("#inputPassword42").val().trim();
             
-    if(userPass2 == "" || userPass2 !== userPass1 || userPass2 === userName) {
+    if(userPass2 == "" || userPass2 !== userPass1 || userPass2 !== userName) {
         dialogTitle = "Password"
         dialogItem = "#passWord"
         displayPopup()
@@ -306,6 +339,7 @@ $("#signUp").on("click", function(event){
 });
 // Function to display dialog boxes for mostly errors
 function displayPopup() {
+    console.log("in display popup")
     $(dialogItem).dialog({
         modal: true,
         autoOpen: false,
@@ -316,20 +350,261 @@ function displayPopup() {
     $(dialogItem).dialog('open');
 }
 
-var states_array_with_keys = {'Texas 1': 'Texas', 'Alabama 2' : 'Alabama', 'Illinois 3' : 'Illinois'};
- 
-$('#sbt_populate_select_with_keys').click(function(e) {
- 
-	$.each(states_array_with_keys, function(val, text) {
-		$('#states_with_keys').append( $('<option></option>').val(val).html(text) )
-	}); 
- 
-	e.preventDefault();
-});
+// Function to display dialog boxes for mostly errors
+function checkuserName() {
 
-function googleTranslateElementInit() {
-    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-  }
+    console.log("in checkUser" );
+    console.log(usernameCheck);
+    console.log(userpassCheck);
+    
+    var ref = new Firebase('https://robs-ucf.firebaseio.com/users/' + usernameCheck);
+    ref.on('value', function(snapshot) {
+    if (snapshot.exists())
+        alert ("exist");
+    else
+        alert ("not exist");
+    });
+
+   var ref = new Firebase('https://robs-ucf.firebaseio.com/users/' + userpassCheck);
+   ref.on('value', function(snapshot) {
+   if (snapshot.exists())
+       alert ("exist");
+   else
+       alert ("not exist");
+   });
+    
+}
+
+//function populate_genre() {
+
+ //   var queryGenre = "https://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
+ //       $.ajax({
+ //       url: queryGenre,
+ //       method: "GET"
+ //   }).then(function(response) {
+        
+ //   var genres = response.genres; //shows results of gifs
+
+//    console.log(response)
+
+ //   for ( i = 0; i < genres.length; i++ ) {
+ 
+	//$.each(genre_array_with_keys, function(val, text) {
+ //  $('#genre_with_keys').append( $('<option></option>').val(genres[i].id).html(genres[i].name) ) 
+   //$('.checkbox').append( $('<option></option>').val(genres[i].id).html(genres[i].name) )
+//    console.log("value of i" + i)
+    //}); 
+ //   }
+ 
+//    })
+
+//}
+//$('#genre_with_keys').click(function(e) {
+
+ //   var queryGenre = "https://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
+ //       $.ajax({
+  //      url: queryGenre,
+  //      method: "GET"
+ //   }).then(function(response) {
+        
+ //   var genres = response.genres; //shows results of gifs
+
+ //   console.log(response)
+
+//    for ( i = 0; i < genres.length; i++ ) {
+ 
+	//$.each(genre_array_with_keys, function(val, text) {
+ //   $('#genre_with_keys').append( $('<option></option>').val(genres[i].id).html(genres[i].name) ) 
+ //   console.log("value of i" + i)
+    //}); 
+ //   }
+ 
+//    e.preventDefault();
+ //   })
+//});
+
+
+function homePage(){
+ // $("#home").on("click", function(e){
+    
+    event.preventDefault();
+    // themoviedb url  
+    
+    var queryWish = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
+    $.ajax({
+    url: queryWish,
+    method: "GET"
+}).then(function(response) {
+
+    console.log(response)
+                
+    var wishList = response.results; //shows results of gifs
+   
+    for (var i=0; i < 16; i++){
+       $("#arefW" + i).attr("href", "ticket.html?id=" + wishList[i].id)
+       $("#imageW" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + wishList[i].poster_path ); 
+       $("#imageW" + i).addClass("image");
+       //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
+    }
+   })
+
+    var queryPopular = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
+        $.ajax({
+        url: queryPopular,
+        method: "GET"
+    }).then(function(response) {
+
+        console.log(response)
+                    
+        var popular = response.results; //shows results of gifs
+       
+        for (var i=0; i < 16; i++){
+           $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id)
+           $("#imageT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + popular[i].poster_path ); 
+           $("#imageT" + i).addClass("image");
+           //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
+        }
+       })
+               
+    var queryCurrent = "https://api.themoviedb.org/3/movie/now_playing?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=2";
+        $.ajax({
+        url: queryCurrent,
+        method: "GET"
+    }).then(function(response) {
+
+        console.log(response)
+
+        var current = response.results; //shows results of gifs
+        for (var i=0; i < 16; i++){
+            $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id)
+            $("#imageIT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + current[i].poster_path ); 
+            $("#imageIT" + i).addClass("image");
+            //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
+         }
+                                    
+       
+    })
+
+        var queryUpcoming = "https://api.themoviedb.org/3/movie/upcoming?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=2";
+        $.ajax({
+        url: queryUpcoming,
+        method: "GET"
+    }).then(function(response) {
+
+        console.log(response)
+
+        var upComing = response.results; //shows results of gifs
+
+       
+        for (var i=0; i < 16; i++){
+            $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id)
+            $("#imageU" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + upComing[i].poster_path ); 
+            $("#imageU" + i).addClass("image");
+            //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
+         }
+                               
+      
+    })
+
+   };
+
+function ticketPage() {
+// $("#ticketPage").on("click", function(e){
+    //event.preventDefault();
+    
+    var urlParams = new URLSearchParams(window.location.search);
+    var movieId = urlParams.get('id'); 
+    var imdbId = " " 
+
+    var queryMovie = "https://api.themoviedb.org/3/movie/" + movieId + "?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
+    
+        $.ajax({
+        url: queryMovie,
+        method: "GET"
+    }).then(function(response) {
+       
+        $("#movieTitle").text("Title: " + response.original_title)
+        $("#movieRuntime").text("Run time: " + response.runtime)
+    
+        imdbId = response.imdb_id
+        console.log("imdb ID " + imdbId)
+    
+        $("#movieOverview").text(response.overview)
+    
+        var queryTrailer = "https://api.themoviedb.org/3/movie/" + movieId + "/videos?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
+    
+        $.ajax({
+        url: queryTrailer,
+        method: "GET"
+         }).then(function(response) {
+ 
+        $("#movieTrail").attr("src", "https://www.youtube.com/embed/" + response.results[0].key); // still image stored into src of image
+        
+        })
+        //var today = new Date();
+        //var todayDate = today.getFullYear()+'-'+ '0' + (today.getMonth()+1)+'-'+ '0' + today.getDate();
+        //console.log(todayDate)
+        //var queryTimes = "https://data.tmsapi.com/v1.1/movies/" + imdbId + "/showings?startDate=" + todayDate + "&zip=32835&api_key=unbasyf4g3mfcpkze88yjqez";
+        //console.log(queryTimes) 
+        
+         // construct the url with parameter values
+
+        //var apikey = "unbasyf4g3mfcpkze88yjqez";
+        //var baseUrl = "http://data.tmsapi.com/v1.1";
+        //var showtimesUrl = baseUrl + '/movies/' + imdbId + 'showings';
+        //var zipCode = "32835";
+        //var d = new Date();
+        //var today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+        //$(document).ready(function() {
+        // send off the query
+        //$.ajax({
+        //url: showtimesUrl,
+         //   data: { startDate: today,
+         //       zip: zipCode,
+        //        jsonp: "dataHandler",
+        //        api_key: apikey
+        //        },          
+        //dataType: "jsonp",
+        //});
+        //});
+        // callback to handle the results
+        //function dataHandler(data) {
+         //   console.log(data)
+        //$(document.body).append('<p>Found ' + data.length + ' movies showing within 5 miles of ' + zipCode+':</p>');
+        //var movies = data.hits;
+        //$.each(data, function(index, movie) {
+        //var movieData = '<div class="tile"><img src="http://developer.tmsimg.com/' + movie.preferredImage.uri + '?api_key='+apikey+'"><br/>';
+        //movieData += movie.title;
+        //if (movie.ratings) { movieData += ' (' + movie.ratings[0].code + ') </div>' };
+        //$(document.body).append(movieData);
+        //});
+        //}
+
+        //$.ajax({
+        //url: queryTimes,
+        //method: "GET"
+        //}).then(function(response) {
+        //   console.log(response)
+           //$("#movieRating").text("Rating: " + response.ratings.code)
+        
+        //  })
+    })
+    
+}
+
+$("#ticketPurchase").on("click", function(e){
+    event.preventDefault();
+
+    console.log("in ticket purchase")
+
+    window.location = 'https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&date=06-14-2011+21:50'
+ 
+        
+
+        // https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&zip=78701&&date=06-14-2011+21:50
+    
+});
+    
 });
 
 
