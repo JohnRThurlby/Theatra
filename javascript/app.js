@@ -428,6 +428,23 @@ function homePage(){
  // $("#home").on("click", function(e){
     
     event.preventDefault();
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var movieId = urlParams.get('id');
+    var userId = urlParams.get('user'); 
+
+    //var ref = new Firebase('https://robs-ucf.firebaseio.com/users/wishList' + userId, movieId);
+    //ref.on('value', function(snapshot) {
+    //if (snapshot.exists())
+    //    alert ("exist");
+    //else
+    //    alert ("not exist");
+    //});
+
+   // dataRef.ref("/users/wishList").push({
+   //     userId: userId,
+   //     movieId: movieId                     
+   // });
     // themoviedb url  
     
     var queryWish = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
@@ -514,6 +531,7 @@ function ticketPage() {
     
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id'); 
+    var userId = urlParams.get('user'); 
     var imdbId = " " 
 
     var queryMovie = "https://api.themoviedb.org/3/movie/" + movieId + "?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
@@ -587,10 +605,26 @@ function ticketPage() {
         //   console.log(response)
            //$("#movieRating").text("Rating: " + response.ratings.code)
         
-        //  })
+        // movie_theater  })
     })
     
 }
+
+$("#addTowish").on("click", function(e){
+    event.preventDefault();
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var movieId = urlParams.get('id');
+    var userId = urlParams.get('user');  
+
+    dataRef.ref("/users/wishList").push({
+        userId: userId,
+        movieId: movieId                     
+    });
+
+    
+    
+});
 
 $("#ticketPurchase").on("click", function(e){
     event.preventDefault();
