@@ -21,6 +21,10 @@ $(document).ready(function() {
 	firebase.initializeApp(config);
 
     var dataRef = firebase.database();
+
+    var usersRef = dataRef.ref().child("users");
+
+    var wishRef = dataRef.ref().child("wishList");
     
     var url  = window.location.href; 
     console.log(url)
@@ -430,10 +434,22 @@ function homePage(){
     event.preventDefault();
 
     var urlParams = new URLSearchParams(window.location.search);
-    var movieId = urlParams.get('id');
+    // var movieId = urlParams.get('id');
     var userId = urlParams.get('user'); 
+    userId = "Robth"
+    wishRef.equalTo(userId).once("value", function (snapshot) {
 
-    //var ref = new Firebase('https://robs-ucf.firebaseio.com/users/wishList' + userId, movieId);
+        snapshot.forEach(function (childSnapshot) {
+
+            var movieId = childSnapshot.val().movieId;
+        
+            console.log(movieId) })
+
+        })
+
+            
+
+    //var ref = new Firebase('https://robs-ucf.firebaseio.com/users/wishList');
     //ref.on('value', function(snapshot) {
     //if (snapshot.exists())
     //    alert ("exist");
@@ -441,11 +457,7 @@ function homePage(){
     //    alert ("not exist");
     //});
 
-   // dataRef.ref("/users/wishList").push({
-   //     userId: userId,
-   //     movieId: movieId                     
-   // });
-    // themoviedb url  
+   
     
     var queryWish = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
     $.ajax({
@@ -559,64 +571,19 @@ function ticketPage() {
         $("#movieTrail").attr("src", "https://www.youtube.com/embed/" + response.results[0].key); // still image stored into src of image
         
         })
-        //var today = new Date();
-        //var todayDate = today.getFullYear()+'-'+ '0' + (today.getMonth()+1)+'-'+ '0' + today.getDate();
-        //console.log(todayDate)
-        //var queryTimes = "https://data.tmsapi.com/v1.1/movies/" + imdbId + "/showings?startDate=" + todayDate + "&zip=32835&api_key=unbasyf4g3mfcpkze88yjqez";
-        //console.log(queryTimes) 
-        
-         // construct the url with parameter values
-
-        //var apikey = "unbasyf4g3mfcpkze88yjqez";
-        //var baseUrl = "http://data.tmsapi.com/v1.1";
-        //var showtimesUrl = baseUrl + '/movies/' + imdbId + 'showings';
-        //var zipCode = "32835";
-        //var d = new Date();
-        //var today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
-        //$(document).ready(function() {
-        // send off the query
-        //$.ajax({
-        //url: showtimesUrl,
-         //   data: { startDate: today,
-         //       zip: zipCode,
-        //        jsonp: "dataHandler",
-        //        api_key: apikey
-        //        },          
-        //dataType: "jsonp",
-        //});
-        //});
-        // callback to handle the results
-        //function dataHandler(data) {
-         //   console.log(data)
-        //$(document.body).append('<p>Found ' + data.length + ' movies showing within 5 miles of ' + zipCode+':</p>');
-        //var movies = data.hits;
-        //$.each(data, function(index, movie) {
-        //var movieData = '<div class="tile"><img src="http://developer.tmsimg.com/' + movie.preferredImage.uri + '?api_key='+apikey+'"><br/>';
-        //movieData += movie.title;
-        //if (movie.ratings) { movieData += ' (' + movie.ratings[0].code + ') </div>' };
-        //$(document.body).append(movieData);
-        //});
-        //}
-
-        //$.ajax({
-        //url: queryTimes,
-        //method: "GET"
-        //}).then(function(response) {
-        //   console.log(response)
-           //$("#movieRating").text("Rating: " + response.ratings.code)
-        
-        // movie_theater  })
+       
     })
     
 }
 
 $("#addTowish").on("click", function(e){
     event.preventDefault();
+    console.log("in wish list")
 
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id');
     var userId = urlParams.get('user');  
-
+    userId = "Robth"
     dataRef.ref("/users/wishList").push({
         userId: userId,
         movieId: movieId                     
@@ -632,11 +599,7 @@ $("#ticketPurchase").on("click", function(e){
     console.log("in ticket purchase")
 
     window.location = 'https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&date=06-14-2011+21:50'
- 
-        
-
-        // https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&zip=78701&&date=06-14-2011+21:50
-    
+             
 });
     
 });
