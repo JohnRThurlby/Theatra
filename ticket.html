@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Title</title>
+    <title>Movie Chosen</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,43 +27,63 @@
   <script src="javascript/app.js"></script>
 </head>
 <body>
-       
-    <div class="container">
-        <div id="google_translate_element"></div>
-        <script type="text/javascript">
-            function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-            }
-            </script>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <a href="Home.html" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Back</a>
+        <div class="container-fluid">
+                <div class="container-fluid" id="header" >
+
+                        <div class="row" id="mainlogo">
+                          <div class"column-xs-6"><div id="google_translate_element"></div>
+                          <script type="text/javascript">
+                              function googleTranslateElementInit() {
+                              new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                              }
+                              </script>
+                    
+                          <div class"column-xs-6">
+                    
+                            <h1><input class="header" type="image" src="assets/images/TheatraLogoNew.png" alt="Login" data-toggle="modal" data-target="#login-modal">
+                              <!--h3 class="text-center">Click on the logo to enter</h3-->
+                          </div>
+                        </div>
+                          <!--div class"column-xs-3">
+                    
+                            <div id="contact">Contact</div>
+                    
+                            <div id="contactForm">
+                            
+                              <h1>Keep in touch!</h1>
+                              <small>We will get back to you as quickly as possible</small>
+                            
+                              <form action="#">
+                                <input placeholder="Name" type="text" required />
+                                <input placeholder="Email" type="email" required />
+                                <input placeholder="Subject" type="text" required />
+                                <textarea placeholder="Comment"></textarea>
+                                <input class="formBtn" type="submit" />
+                                <input class="formBtn" type="reset" />
+                              </form>
+                            </div>
+                          </div-->
+                    
+                        </div> 
             </div>
-            <div class="form-group col-md-4">
-                <a href="Home.html">
-                    <img height="50px" width="50px" src="assets/images/TheatraLogoNew.png" class="social"
-                        alt="Home">
-                </a>
-            </div>
-        </div>
-    </div>
     <hr>
-    <div class="container">
-        <div class="form-row">
-            <div class="form-group col-md-5">
+    <div class="container-fluid">
+    <div class="container-fluid">
+        <div class="form-row" id="movietrailer">
+            <div class="form-group col-md-4">
                 <iframe  width="400" height="325" id="movieTrail" frameborder="0" allowfullscreen></iframe>
                 <!-- <div id="movieTrail"></div> -->
             </div>
             <div class="form-group col-md-7">
-                <div class="container">
+                <div class="container-fluid" id="description">
                     <div class="form-row">
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-4">
                             <h3 id="movieTitle">Title</h3>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-4">
                             <h3 id="movieRating">Rating</h3>
                         </div> 
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-4">
                             <h3 id="movieRuntime">Run Time</h3>
                         </div>
                     </div>
@@ -75,42 +95,19 @@
     </div>
     </div>
     <hr>
-    <div class="container">
+    <div class="container-fluid">
         <div class="form-row">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-4" id="googlemap">
                 <iframe
-                width="400"
+                width="500"
                 height="325"
                 frameborder="0" style="border:0"
                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&q=32835" allowfullscreen>
               </iframe>
             </div>
             <div class="form-group col-md-7">
-                <div class="container">
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <h4>Theater</h4>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <a class="btn btn-default" href="#" role="button">Buy Tickets »</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="form-row">
+                <div class="container-fluid">
+                    <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
                             <h4>Theater</h4>
                         </div>
@@ -132,8 +129,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="form-row">
+                <div class="container-fluid">
+                    <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
                             <h4>Theater</h4>
                         </div>
@@ -155,8 +152,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="form-row">
+                <div class="container-fluid">
+                    <div class="form-row" id="theaters">
+                        <div class="form-group col-md-4">
+                            <h4>Theater</h4>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Dropdown button
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <a class="btn btn-default" href="#" role="button">Buy Tickets »</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
                             <h4>Theater</h4>
                         </div>
@@ -178,8 +198,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="form-row">
+                <div class="container-fluid">
+                    <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
                             <h4>Theater</h4>
                         </div>
@@ -201,8 +221,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="form-row">
+                <div class="container-fluid">
+                    <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
                             <h4>Theater</h4>
                         </div>
@@ -225,6 +245,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <hr>

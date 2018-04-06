@@ -11,7 +11,7 @@ body {
   padding: 0; 
   background: lightgray;
   font-family: Raleway; 
-  text-transform: uppercase; 
+  /*text-transform: uppercase; */
   font-size: 11px; 
   background-image: url("../../images/overlay.png"), linear-gradient(45deg, #1a7567 20%, #2dbca9 60%, #efd22b);
   
@@ -107,10 +107,10 @@ textarea { height: 80px; resize: none; }
 /* Bordered form */
 form {
   padding: 30px;  
-  border: 1px solid #f1f1f1;
+  border: 0px solid #f1f1f1;
   opacity: 0.8;
-  margin-top: 61px;
-  margin-bottom: 88px;
+  margin-top: -12px;
+  margin-bottom: 20px;
 }
 
 /* Full-width inputs */
@@ -172,9 +172,10 @@ img.avatar {
 .container {
   padding: 0px;
   z-index: 99999;
-  background-image: url("../../images/overlay.png"), linear-gradient(45deg, white 20%, white 60%, white); 
+  background-color: rgb(209, 218, 209);; 
   margin-bottom: -71px;
   margin-top: 36px;
+  width: 600px;
 
 }
 
@@ -313,7 +314,7 @@ span.psw {
 }
 
 .btn-lg, .btn-group-lg>.btn {
-    border-radius: 15px;
+    border-radius: 0px;
 }
 
 .btn-link {
@@ -349,7 +350,9 @@ header {
 .row {
     border: 14.5px solid black;
     background-color: black;
-    margin-left: -6px;
+    margin-left: -30px;
+    margin-bottom: 15px;
+    margin-top: -3px;
 }
 
 .jumbotron {
@@ -384,10 +387,15 @@ img {
     position: relative;
     width: 100%;
     overflow: hidden;
-    margin-left: 40px;
+    margin-left: 85px;
 }
 
-
+#carousel-inners {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-left: 40px;
+}
 
 #signUp {
     align-content: center;
@@ -411,7 +419,7 @@ img {
 }
 
 #description {
-    margin-left: 105px;
+    margin-left: 0px;
 }
 
 #theaters {
@@ -429,4 +437,53 @@ a {
     padding-left: 0px;
     margin-right: auto;
     margin-left: auto;
+}
+
+.goog-te-gadget {
+    margin-right: 45px;
+    font-family: arial;
+    font-size: 11px;
+    color: #666;
+    white-space: nowrap;
+    float: left;
+}
+
+#titlecarousel {
+    text-align: center;
+    font-weight: 900;
+}
+
+#footersignup {
+    margin-top: 15px;
+}
+
+#googlemap {
+
+    margin-left: 45px;
+    margin-top: 55px;
+}
+
+#movietrailer {
+
+    margin-left: 45px;
+    margin-top: 55px;
+}
+
+.ui-dialog {
+display: block;
+z-index: 1002;
+outline: 0px;
+position: relative;
+/* height: auto; */
+width: 400px;
+height: 20px;
+top: -357.6px;
+left: 560px;
+background-color: tomato;
+text-align: center;
+font-size: 24px;
+}
+
+.ui-helper-clearfix {
+    display: none;
 }
