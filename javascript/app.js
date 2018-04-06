@@ -158,14 +158,14 @@ $(function(){
                    }, function (error) {
                     console.log("Error: " + error.code);
                  });
-                  //checkuserName();     
-                  console.log(loginError)
+                     
+                  
                   if (loginError == true) {
-                  //f ($lg_username == "ERROR") {
+                  
                       msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
                   } else {
-                      console.log("in login")
-                      window.location.href = "Home.html"
+                      
+                      window.location.href = "Home.html?user=" + usernameCheck 
                                             
                      // msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                   }
@@ -243,8 +243,10 @@ $("#signUp").on("click", function(event){
 
     
 
+    
+
     //get name input from text box
-    firstName = $("#inputFirst4").val().trim();
+    var firstName = $("#inputFirst4").val().trim();
 
     if (firstName == ""){   //nothing entered in text box.
         dialogTitle = "First Name"
@@ -254,10 +256,10 @@ $("#signUp").on("click", function(event){
     }
     
     //get middle initial input from text box
-    midInit = $("#inputMiddle4").val().trim();
+    var midInit = $("#inputMiddle4").val().trim();
 
    //get start time input from text box
-    lastName = $("#inputLast4").val().trim();
+    var lastName = $("#inputLast4").val().trim();
             
     if(lastName == "") {
         dialogTitle = "Last Name"
@@ -265,9 +267,9 @@ $("#signUp").on("click", function(event){
         displayPopup()
         return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
     }
-
+    
     //get start time input from text box
-    emailIn = $("#inputEmail").val().trim();
+    var emailIn = $("#inputEmail").val().trim();
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             
     if(emailIn == "" || ! emailIn.match(regex)) {
@@ -278,7 +280,7 @@ $("#signUp").on("click", function(event){
     }
 
     //get frequency input from text box
-    userZip = $("#inputZip").val().trim();
+    var userZip = $("#inputZip").val().trim();
         
     if (userZip == ""){   //nothing entered in text box.
         dialogTitle = "Zip Code"
@@ -308,10 +310,11 @@ $("#signUp").on("click", function(event){
     }};
     client.send();
     };
-    //}  
+     
+    
 
     //get start time input from text box
-    userName = $("#inputusername4").val().trim();
+    var userName = $("#inputusername4").val().trim();
             
     if(userName == "") {
         dialogTitle = "User Name"
@@ -321,7 +324,7 @@ $("#signUp").on("click", function(event){
     }
 
     //get start time input from text box
-    userPass1 = $("#inputPassword4").val().trim();
+    var userPass1 = $("#inputPassword4").val().trim();
             
     if(userPass1 == "") {
         dialogTitle = "Password"
@@ -329,18 +332,26 @@ $("#signUp").on("click", function(event){
         displayPopup()
         return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
     }
-
-    //get start time input from text box
-    userPass2 = $("#inputPassword42").val().trim();
-            
-    if(userPass2 == "" || userPass2 !== userPass1 || userPass2 !== userName) {
+    
+    if(userPass1 === userName) {
+       
         dialogTitle = "Password"
-        dialogItem = "#passWord"
+        dialogItem = "#passWord1"
+        displayPopup()
+        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+    }
+    
+    //get start time input from text box
+    var userPass2 = $("#inputPassword42").val().trim();
+          
+    if(userPass2 == "" || userPass2 !== userPass1) {
+        dialogTitle = "Password"
+        dialogItem = "#passWord2"
         displayPopup()
         return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
     }
     // Push into firebase DB
-
+    
     dataRef.ref("/users").push({
         firstName: firstName,
         middleInit: midInit,
@@ -353,8 +364,6 @@ $("#signUp").on("click", function(event){
         
     // clear out page text boxes
 
-    
-
     $("#inputFirst4").val("");
     $("#inputMiddle4").val("");
     $("#inputLast4").val("");
@@ -364,10 +373,9 @@ $("#signUp").on("click", function(event){
     $("#inputPassword4").val("");
     $("#inputPassword42").val("");
 
-    dialogTitle = "User Added"
-    dialogItem = "#userAdded"
-    displayPopup()
-    
+    window.location.href = "Home.html?user=" + userName
+
+      
 });
 // Function to display dialog boxes for mostly errors
 function displayPopup() {
@@ -404,9 +412,7 @@ function checkuserName() {
 }
 
 function homePage(){
- // $("#home").on("click", function(e){
-    
-    // event.preventDefault();
+ 
 
     var urlParams = new URLSearchParams(window.location.search);
     userReq = urlParams.get('user'); 
