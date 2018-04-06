@@ -8,6 +8,14 @@ $(document).ready(function() {
         carouArr = []
         usernameCheck = " "
         userpassCheck = " "
+        listArr =  []
+        userReq = " " 
+        loginError = false
+        latLong = " "
+       
+
+        
+
 
         // Initialize Firebase
 	var config = {
@@ -22,12 +30,12 @@ $(document).ready(function() {
 
     var dataRef = firebase.database();
 
-    var usersRef = dataRef.ref().child("users");
+    var userRef = dataRef.ref().child("users");
 
-    var wishRef = dataRef.ref().child("wishList");
-    
+    var wishRef = dataRef.ref().child("users/wishList");
+        
     var url  = window.location.href; 
-    console.log(url)
+    
     if (url.indexOf("ticket.html") >= 0) {
        ticketPage()
     }
@@ -44,7 +52,7 @@ $(function(){
         method: "GET"
     }).then(function(response) {
 
-        console.log(response)
+        
 
         var results = response.results; //shows results of gifs
                                         
@@ -113,7 +121,7 @@ $(function(){
 
       $( event.target ).blur();
           
-      console.log( options );
+      
       return false;
     });
 
@@ -134,12 +142,32 @@ $(function(){
                   usernameCheck = $('#login_username').val();
                   var $lg_password=$('#login_password').val();
                   userpassCheck = $('#login_password').val();
-                  if ($lg_username == "ERROR") {
+                  loginError = false
+                  userRef.on("value", function(data) {
+       
+                    if (usernameCheck != data.val().userId){
+                       
+                        loginError = true
+                    }
+                    if (userpassCheck != data.val().userPassword){
+                       
+                        loginError = true
+                    }
+                    console.log("in call " + loginError)
+                    return loginError;
+                   }, function (error) {
+                    console.log("Error: " + error.code);
+                 });
+                  //checkuserName();     
+                  console.log(loginError)
+                  if (loginError == true) {
+                  //f ($lg_username == "ERROR") {
                       msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
                   } else {
                       console.log("in login")
-                      checkuserName();
-                      msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
+                      window.location.href = "Home.html"
+                                            
+                     // msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                   }
                   return false;
                   break;
@@ -213,7 +241,7 @@ $(function(){
 $("#signUp").on("click", function(event){
     event.preventDefault();
 
-    console.log("in sign up")
+    
 
     //get name input from text box
     firstName = $("#inputFirst4").val().trim();
@@ -265,13 +293,13 @@ $("#signUp").on("click", function(event){
         return false; // added so user must enter a numeric frequency        
     }
     else {
-        console.log(userZip)
+        
         var client = new XMLHttpRequest();
         client.open("GET", 'http://api.zippopotam.us/us/' + userZip, true);
-        console.log("after zip  call")
+        
         client.onreadystatechange = function() {
 	    if(client.readyState == 4 && client.status == 404) {
-            console.log("in ready state")
+            
             dialogTitle = "Zip Code"
             dialogItem = "#zipCode"
             displayPopup()
@@ -343,7 +371,7 @@ $("#signUp").on("click", function(event){
 });
 // Function to display dialog boxes for mostly errors
 function displayPopup() {
-    console.log("in display popup")
+    
     $(dialogItem).dialog({
         modal: true,
         autoOpen: false,
@@ -357,125 +385,72 @@ function displayPopup() {
 // Function to display dialog boxes for mostly errors
 function checkuserName() {
 
-    console.log("in checkUser" );
-    console.log(usernameCheck);
-    console.log(userpassCheck);
-    
-    var ref = new Firebase('https://robs-ucf.firebaseio.com/users/' + usernameCheck);
-    ref.on('value', function(snapshot) {
-    if (snapshot.exists())
-        alert ("exist");
-    else
-        alert ("not exist");
-    });
-
-   var ref = new Firebase('https://robs-ucf.firebaseio.com/users/' + userpassCheck);
-   ref.on('value', function(snapshot) {
-   if (snapshot.exists())
-       alert ("exist");
-   else
-       alert ("not exist");
-   });
-    
+    userRef.on("value", function(data) {
+       
+        if (usernameCheck != data.val().userId){
+           
+            loginError = true
+        }
+        if (userpassCheck != data.val().userPassword){
+           
+            loginError = true
+        }
+        console.log("in call " + loginError)
+        return loginError;
+       }, function (error) {
+        console.log("Error: " + error.code);
+     });
+     
 }
-
-//function populate_genre() {
-
- //   var queryGenre = "https://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
- //       $.ajax({
- //       url: queryGenre,
- //       method: "GET"
- //   }).then(function(response) {
-        
- //   var genres = response.genres; //shows results of gifs
-
-//    console.log(response)
-
- //   for ( i = 0; i < genres.length; i++ ) {
- 
-	//$.each(genre_array_with_keys, function(val, text) {
- //  $('#genre_with_keys').append( $('<option></option>').val(genres[i].id).html(genres[i].name) ) 
-   //$('.checkbox').append( $('<option></option>').val(genres[i].id).html(genres[i].name) )
-//    console.log("value of i" + i)
-    //}); 
- //   }
- 
-//    })
-
-//}
-//$('#genre_with_keys').click(function(e) {
-
- //   var queryGenre = "https://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
- //       $.ajax({
-  //      url: queryGenre,
-  //      method: "GET"
- //   }).then(function(response) {
-        
- //   var genres = response.genres; //shows results of gifs
-
- //   console.log(response)
-
-//    for ( i = 0; i < genres.length; i++ ) {
- 
-	//$.each(genre_array_with_keys, function(val, text) {
- //   $('#genre_with_keys').append( $('<option></option>').val(genres[i].id).html(genres[i].name) ) 
- //   console.log("value of i" + i)
-    //}); 
- //   }
- 
-//    e.preventDefault();
- //   })
-//});
-
 
 function homePage(){
  // $("#home").on("click", function(e){
     
-    event.preventDefault();
+    // event.preventDefault();
 
     var urlParams = new URLSearchParams(window.location.search);
-    // var movieId = urlParams.get('id');
-    var userId = urlParams.get('user'); 
-    userId = "Robth"
-    wishRef.equalTo(userId).once("value", function (snapshot) {
+    userReq = urlParams.get('user'); 
+    userReq = "Robth"
 
-        snapshot.forEach(function (childSnapshot) {
+    var wishCount = 0
+    var listMovie = " "
+    
+    wishRef.on("value", function(snapshot) {
+       var wishArr = snapshotToArray(snapshot)
+       for (i=0; i < wishArr.length; i++) {
+          if (wishArr[i].userId = userReq) {
 
-            var movieId = childSnapshot.val().movieId;
-        
-            console.log(movieId) })
-
-        })
+            listMovie = wishArr[i].movieId
+            
+            var queryWish = "https://api.themoviedb.org/3/movie/" + listMovie + "?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
+            $.ajax({
+            url: queryWish,
+            method: "GET"
+            }).then(function(response) {
+            
+            console.log(response)
 
             
+                   
+           $("#arefW" + wishCount).attr("href", "ticket.html?id=" + listMovie)
+           $("#imageW" + wishCount).attr("src", "http://image.tmdb.org/t/p/w185//" + response.poster_path ); 
+           $("#imageW" + wishCount).addClass("image");
 
-    //var ref = new Firebase('https://robs-ucf.firebaseio.com/users/wishList');
-    //ref.on('value', function(snapshot) {
-    //if (snapshot.exists())
-    //    alert ("exist");
-    //else
-    //    alert ("not exist");
-    //});
+           wishCount++
+             
+            
+           })
+            
+          }
+      }
+      }, function (error) {
+       console.log("Error: " + error.code);
+    });
+ 
 
    
-    
-    var queryWish = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
-    $.ajax({
-    url: queryWish,
-    method: "GET"
-}).then(function(response) {
+             
 
-    console.log(response)
-                
-    var wishList = response.results; //shows results of gifs
-   
-    for (var i=0; i < 16; i++){
-       $("#arefW" + i).attr("href", "ticket.html?id=" + wishList[i].id)
-       $("#imageW" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + wishList[i].poster_path ); 
-       $("#imageW" + i).addClass("image");
-       //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
-    }
-   })
 
     var queryPopular = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
         $.ajax({
@@ -483,7 +458,7 @@ function homePage(){
         method: "GET"
     }).then(function(response) {
 
-        console.log(response)
+        
                     
         var popular = response.results; //shows results of gifs
        
@@ -491,7 +466,7 @@ function homePage(){
            $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id)
            $("#imageT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + popular[i].poster_path ); 
            $("#imageT" + i).addClass("image");
-           //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
+            
         }
        })
                
@@ -501,14 +476,14 @@ function homePage(){
         method: "GET"
     }).then(function(response) {
 
-        console.log(response)
+        
 
         var current = response.results; //shows results of gifs
         for (var i=0; i < 16; i++){
             $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id)
             $("#imageIT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + current[i].poster_path ); 
             $("#imageIT" + i).addClass("image");
-            //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
+           
          }
                                     
        
@@ -520,7 +495,7 @@ function homePage(){
         method: "GET"
     }).then(function(response) {
 
-        console.log(response)
+        
 
         var upComing = response.results; //shows results of gifs
 
@@ -529,7 +504,7 @@ function homePage(){
             $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id)
             $("#imageU" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + upComing[i].poster_path ); 
             $("#imageU" + i).addClass("image");
-            //popularArr[i] = '"<a href="ticket.html"></a><img src="http://image.tmdb.org/t/p/w185//' + popular[i].poster_path 
+           
          }
                                
       
@@ -538,8 +513,7 @@ function homePage(){
    };
 
 function ticketPage() {
-// $("#ticketPage").on("click", function(e){
-    //event.preventDefault();
+
     
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id'); 
@@ -557,7 +531,7 @@ function ticketPage() {
         $("#movieRuntime").text("Run time: " + response.runtime)
     
         imdbId = response.imdb_id
-        console.log("imdb ID " + imdbId)
+        
     
         $("#movieOverview").text(response.overview)
     
@@ -571,14 +545,83 @@ function ticketPage() {
         $("#movieTrail").attr("src", "https://www.youtube.com/embed/" + response.results[0].key); // still image stored into src of image
         
         })
+
+        var latitude = " "
+        var longitude = " "
+        var googleAPI = "https://cors-anywhere.herokuapp.com/maps.googleapis.com/maps/api/geocode/json?/key=AIzaSyALrGs-INdG9Kio-Hhe56cxhY8atmBopz";
+        var zipLookup = "32835";
+        
+        console.log(zipLookup);
+
+        //query the API
+        $.getJSON( googleAPI, {
+            address: zipLookup,
+            sensor: "false"
+        })
+        .done(function( data ) {
+            console.log(data);
+            //append the FORMATTED ADDRESS
+            $("#response").append( data.results[0].geometry.location.lat );
+            latitude = data.results[0].geometry.location.lat
+            $("#response").append( data.results[0].geometry.location.lng );
+            longitude = data.results[0].geometry.location.lng
+        
+            console.log(latitude)
+            console.log(longitude)
+
+            latLong = '"' + latitude + ',' + longitude + '"' 
+            console.log("location " + latLong)
+            
+                
+        })
+        .fail(function( error ) {
+            console.log("ERROR");
+            console.log(error);
+            
+        });
+  
+        console.log("location " + latLong)
+                
+        //var queryCinema = "Access-Control-Allow-Origin: https://api.internationalshowtimes.com/v4/countries?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF";
+        //https://cors-anywhere.herokuapp.com//api.internationalshowtimes.com/v4/cinemas/countries=US/?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF
+        //https://api.internationalshowtimes.com/v4/cinemas?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF
+        //https://api.internationalshowtimes.com/v4/cinemas?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF
+        var corsTry = "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/showtimes?movie_id=" + imdbId + "?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF"
+        $.ajax({
+            url: corsTry,
+            method: "GET",
+           
+        }).then(function(data) {
+            console.log(data)
+        })
+        
+        //$.ajax({
+        //    url: queryCinema,
+         //   type: "GET"
+        //    }).then(function(response) {
+
+        //        console.log(response);
+        
+        //.done(function(dataresponse, textStatus, jqXHR) {
+        //    console.log("HTTP Request Succeeded: " + jqXHR.status);
+        //    console.log(response);
+        //})
+        //.fail(function(jqXHR, textStatus, errorThrown) {
+        //    console.log("HTTP Request Failed");
+        //})
+        //.always(function() {
+            /* ... */
+       //})
+    });
        
-    })
+        
+    
     
 }
 
 $("#addTowish").on("click", function(e){
     event.preventDefault();
-    console.log("in wish list")
+    
 
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id');
@@ -596,11 +639,39 @@ $("#addTowish").on("click", function(e){
 $("#ticketPurchase").on("click", function(e){
     event.preventDefault();
 
-    console.log("in ticket purchase")
+    
 
     window.location = 'https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&date=06-14-2011+21:50'
              
 });
+
+function snapshotToArray(snapshot) {
+    var returnArr = []
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+
+        returnArr.push(item);
+    });
+
+    return returnArr;
+};
+
+function getwishList () {
+
+    wishRef.on("value", function(snapshot) {
+        var wishArr = snapshotToArray(snapshot)
+        for (i=0; i < wishArr.length; i++) {
+            if (wishArr[i].userId = userReq) {
+                listArr[i] = wishArr[i].movieId
+                console.log("list in for loop " + listArr)
+            }
+        }
+        }, function (error) {
+        console.log("Error: " + error.code);
+     });
+    }    
+
     
 });
 
