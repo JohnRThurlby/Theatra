@@ -416,7 +416,7 @@ function homePage(){
 
     var urlParams = new URLSearchParams(window.location.search);
     userReq = urlParams.get('user'); 
-    userReq = "Robth"
+    console.log(userReq)
 
     var wishCount = 0
     var listMovie = " "
@@ -438,7 +438,7 @@ function homePage(){
 
             
                    
-           $("#arefW" + wishCount).attr("href", "ticket.html?id=" + listMovie)
+           $("#arefW" + wishCount).attr("href", "ticket.html?id=" + listMovie + "&user=" + userReq)
            $("#imageW" + wishCount).attr("src", "http://image.tmdb.org/t/p/w185//" + response.poster_path ); 
            $("#imageW" + wishCount).addClass("image");
 
@@ -469,7 +469,7 @@ function homePage(){
         var popular = response.results; //shows results of gifs
        
         for (var i=0; i < 16; i++){
-           $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id)
+           $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id + "&user=" + userReq)
            $("#imageT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + popular[i].poster_path ); 
            $("#imageT" + i).addClass("image");
             
@@ -486,7 +486,7 @@ function homePage(){
 
         var current = response.results; //shows results of gifs
         for (var i=0; i < 16; i++){
-            $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id)
+            $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id + "&user=" + userReq)
             $("#imageIT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + current[i].poster_path ); 
             $("#imageIT" + i).addClass("image");
            
@@ -507,7 +507,7 @@ function homePage(){
 
        
         for (var i=0; i < 16; i++){
-            $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id)
+            $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id + "&user=" + userReq)
             $("#imageU" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + upComing[i].poster_path ); 
             $("#imageU" + i).addClass("image");
            
@@ -632,7 +632,6 @@ $("#addTowish").on("click", function(e){
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id');
     var userId = urlParams.get('user');  
-    userId = "Robth"
     dataRef.ref("/users/wishList").push({
         userId: userId,
         movieId: movieId                     
