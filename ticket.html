@@ -21,6 +21,8 @@
    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&libraries=places"></script>
    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&callback=initMap">
+    </script>
    <!-- Local CSS style sheet -->
   <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
   <!-- Local JavaScript --> 
@@ -44,26 +46,7 @@
                               <!--h3 class="text-center">Click on the logo to enter</h3-->
                           </div>
                         </div>
-                          <!--div class"column-xs-3">
-                    
-                            <div id="contact">Contact</div>
-                    
-                            <div id="contactForm">
-                            
-                              <h1>Keep in touch!</h1>
-                              <small>We will get back to you as quickly as possible</small>
-                            
-                              <form action="#">
-                                <input placeholder="Name" type="text" required />
-                                <input placeholder="Email" type="email" required />
-                                <input placeholder="Subject" type="text" required />
-                                <textarea placeholder="Comment"></textarea>
-                                <input class="formBtn" type="submit" />
-                                <input class="formBtn" type="reset" />
-                              </form>
-                            </div>
-                          </div-->
-                    
+                                        
                         </div> 
             </div>
     <hr>
@@ -81,9 +64,6 @@
                             <h3 id="movieTitle">Title</h3>
                         </div>
                         <div class="form-group col-md-4">
-                            <h3 id="movieRating">Rating</h3>
-                        </div> 
-                        <div class="form-group col-md-4">
                             <h3 id="movieRuntime">Run Time</h3>
                         </div>
                     </div>
@@ -98,23 +78,25 @@
     <hr>
     <div class="container-fluid">
         <div class="form-row">
-            <div class="form-group col-md-4" id="googlemap">
+            <div class="form-group col-md-4" id="map">
                 <iframe
                 width="500"
                 height="325"
-                frameborder="0" style="border:0"
-                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&q=32835" allowfullscreen>
-              </iframe>
+                frameborder="0" style="border:0"></iframe>
+          <!--      src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&q=32835" allowfullscreen> 
+              </iframe> -->
             </div>
             <div class="form-group col-md-7">
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
-                            <h4>Theater</h4>
+                            <h4 id=theaterName0></h4>
+                            <h4 id=theaterTel0></h4>
+                            <h4 id=theaterAddr0></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton0" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     Dropdown button
                                 </button>
@@ -126,18 +108,20 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <a class="btn btn-default" href="#" role="button">Buy Tickets »</a>
+                            <a class="btn btn-default" href="#" role="button" id="ticketPurchase0">Buy Tickets via Fandango</a>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
-                            <h4>Theater</h4>
+                            <h4 id=theaterName1></h4>
+                            <h4 id=theaterTel1></h4>
+                            <h4 id=theaterAddr1></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     Dropdown button
                                 </button>
@@ -149,18 +133,20 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <a class="btn btn-default" href="#" role="button">Buy Tickets »</a>
+                            <a class="btn btn-default" href="#" role="button" id="ticketPurchase1">Buy Tickets via Fandango</a>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
-                            <h4>Theater</h4>
+                            <h4 id=theaterName2></h4>
+                            <h4 id=theaterTel2></h4>
+                            <h4 id=theaterAddr2></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     Dropdown button
                                 </button>
@@ -172,18 +158,20 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <a class="btn btn-default" href="#" role="button">Buy Tickets »</a>
+                            <a class="btn btn-default" href="#" role="button"id="ticketPurchase2">Buy Tickets via Fandango</a>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
-                            <h4>Theater</h4>
+                            <h4 id=theaterName3></h4>
+                            <h4 id=theaterTel3></h4>
+                            <h4 id=theaterAddr3></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     Dropdown button
                                 </button>
@@ -195,18 +183,20 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                                <button type="submit" class="btn btn-primary" id="ticketPurchase">Buy Tickets via Fandango</button>
+                                <button type="submit" class="btn btn-primary" id="ticketPurchase3">Buy Tickets via Fandango</button>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
-                            <h4>Theater</h4>
+                            <h4 id=theaterName4></h4>
+                            <h4 id=theaterTel4></h4>
+                            <h4 id=theaterAddr4></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                <button class="btn btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     Dropdown button
                                 </button>
@@ -218,18 +208,20 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                                <button type="submit" class="btn btn-primary" id="ticketPurchase">Buy Tickets via Fandango</button>
+                                <button type="submit" class="btn btn-primary" id="ticketPurchase4">Buy Tickets via Fandango</button>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
                         <div class="form-group col-md-4">
-                            <h4>Theater</h4>
+                            <h4 id=theaterName5></h4>
+                            <h4 id=theaterTel5></h4>
+                            <h4 id=theaterAddr5></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton5" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     Dropdown button
                                 </button>
@@ -241,7 +233,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <button type="submit" class="btn btn-primary" id="ticketPurchase">Buy Tickets via Fandango</button>
+                            <button type="submit" class="btn btn-primary" id="ticketPurchase5">Buy Tickets via Fandango</button>
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,9 @@ $(document).ready(function() {
         latitude = " "
         longitude = " "
         passZip = " " 
+        googleLat = " "
+        googleLong = " " 
+
            
         // Initialize Firebase
 	var config = {
@@ -48,7 +51,7 @@ $(document).ready(function() {
 $(function(){
     // themoviedb url
         
-    var queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&primary_release_date.gte=2018-02-01&primary_release_date.lte=2018-03-31";
+    var queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&primary_release_date.gte=2018-03-01&primary_release_date.lte=2018-04-30";
         $.ajax({
         url: queryURL,
         method: "GET"
@@ -656,6 +659,8 @@ function getmovieTimes () {
     var movieAddress = " "
     var theResultsMulti = new Array()
     var theResultsCinema = new Array()
+    var cinemaCount = 0
+    var cinemasId = []
 
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/movies/",
@@ -679,7 +684,7 @@ function getmovieTimes () {
                 data: {
                     "movie_id": showMovieid,
                     "location": latitude + "," + longitude,
-                    "distance": 8,
+                    "distance": 20,
                               
                 },
                 headers: {
@@ -688,17 +693,24 @@ function getmovieTimes () {
                 })
                 .done(function(data, textStatus, jqXHR) {
                     console.log("HTTP Request Succeeded: " + jqXHR.status);
-                    console.log(data);
-                    
+                                       
                     cinemaMovieid = data.showtimes[0].cinema_id
-
+                    cinemaCount = 0
                     for (i=0; i < data.showtimes.length; i++){
                         var theResults = new Array(); 
                         theResults[0] = data.showtimes[i].cinema_id
                         theResults[1] = data.showtimes[i].start_at
-                        theResultsMulti.push(theResults);             
+                        theResultsMulti.push(theResults); 
+                        if (i > 0) {
+                            if (data.showtimes[i].cinema_id !== data.showtimes[i-1].cinema_id) {
+                            
+                            cinemasId[cinemaCount] = data.showtimes[i].cinema_id
+                            cinemaCount++
+                        }
+                        }            
                     }
                     console.log(theResultsMulti)
+                    console.log(cinemasId)
                     
 
                     
@@ -715,8 +727,9 @@ function getmovieTimes () {
                         .done(function(data, textStatus, jqXHR) {
                             console.log("HTTP Request Succeeded: " + jqXHR.status);
                             console.log(data)
+                            cinemaCount = 0
                             for (j=0; j < data.cinemas.length; j++){
-                                if (cinemaMovieid == data.cinemas[j].id) {
+                                if (cinemasId[cinemaCount] == data.cinemas[j].id) {
 
                                     var theCinemas = new Array(); 
                                     theCinemas[0] = data.cinemas[j].id
@@ -725,13 +738,30 @@ function getmovieTimes () {
                                     theCinemas[3] = data.cinemas[j].location.address.display_text
                                     theCinemas[4] = data.cinemas[j].location.lat
                                     theCinemas[5] = data.cinemas[j].location.lon
-                                    theResultsCinema.push(theCinemas);                                   
+                                    console.log("results " + theCinemas)
+                                    theResultsCinema.push(theCinemas);
+                                    cinemaCount++                                   
                             }}
-                           
-                            console.log(theResultsCinema)
                             
-
-                                                    })
+                            for (i=0; i < 6; i++ ){
+                                $("#ticketPurchase" + i).hide()
+                                $("#dropdownMenuButton" + i).hide()
+                                 
+                            }
+                                                        
+                            for (i=0; i < theResultsCinema.length; i++ ){
+                                $("#ticketPurchase" + i).show()
+                                $("#dropdownMenuButton" + i).show()
+                                $("#theaterName" + i).text(theResultsCinema[i][1]);
+                                $("#theaterTel" + i).text(theResultsCinema[i][2]);
+                                $("#theaterAddr" + i).text(theResultsCinema[i][3])
+                                if (i === 0){
+                                googleLat = theResultsCinema[i][4]
+                                googleLong = theResultsCinema[i][5]
+                                initMap() }                                  
+                            }
+                            
+                        })
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             console.log("HTTP Request Failed");
                         })
@@ -752,7 +782,28 @@ function getmovieTimes () {
         })
         .always(function() {
             /* ... */
-        });    
+        });
+        
+        function initMap() {
+            var myLatLng = {lat: 13.345, lng: -81.4652321};
+            myLatLng.lat = googleLat   
+            myLatLng.lng = googleLong
+            console.log(myLatLng)
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 15,
+              center: myLatLng
+            });
+    
+            var marker = new google.maps.Marker({
+              position: myLatLng,
+              map: map,
+              title: 'Cinemas'
+            });
+          }
+       
+
+         
+         
     }
     
 });
