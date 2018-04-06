@@ -627,11 +627,32 @@ function ticketPage() {
 
 $("#addTowish").on("click", function(e){
     event.preventDefault();
-    
 
     var urlParams = new URLSearchParams(window.location.search);
-    var movieId = urlParams.get('id');
+    var movieReq = urlParams.get('id');
     var userId = urlParams.get('user');  
+
+    var wishlistCount = 0
+    var listMovie = " "
+    
+    wishRef.on("value", function(snapshot) {
+       var wishlistArr = snapshotToArray(snapshot)
+       for (i=0; i < wishlistArr.length; i++) {
+          if (wishlistArr[i].movieId = movieReq) {
+
+            dialogTitle = "Wishlist"
+            dialogItem = "#wishList"
+            displayPopup()
+            return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+           
+          }
+      }
+      }, function (error) {
+       console.log("Error: " + error.code);
+    });
+    
+
+    
     dataRef.ref("/users/wishList").push({
         userId: userId,
         movieId: movieId                     
