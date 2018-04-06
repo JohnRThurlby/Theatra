@@ -398,7 +398,12 @@ img {
 }
 
 #signUp {
-    align-content: center;
+    text-align: center;
+    margin: -40px 50px; 
+    position:relative;
+    top:-80%; 
+    left:80%;
+    
 }
 
 #google_translate_element {

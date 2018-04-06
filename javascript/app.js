@@ -10,13 +10,15 @@ $(document).ready(function() {
         userpassCheck = " "
         listArr =  []
         userReq = " " 
+        userZip = " "
         loginError = false
         latLong = " "
-       
-
-        
-
-
+        imdbId = " " 
+        showMovieid = " " 
+        latitude = " "
+        longitude = " "
+        passZip = " " 
+           
         // Initialize Firebase
 	var config = {
 		apiKey: "AIzaSyDrx5HgfNPm6bCsedzhCHGhS1qDwIPmW3w",
@@ -143,8 +145,10 @@ $(function(){
                   var $lg_password=$('#login_password').val();
                   userpassCheck = $('#login_password').val();
                   loginError = false
+                  passZip = "32811"
+
                   userRef.on("value", function(data) {
-       
+ 
                     if (usernameCheck != data.val().userId){
                        
                         loginError = true
@@ -153,7 +157,7 @@ $(function(){
                        
                         loginError = true
                     }
-                    console.log("in call " + loginError)
+                    
                     return loginError;
                    }, function (error) {
                     console.log("Error: " + error.code);
@@ -165,7 +169,7 @@ $(function(){
                       msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
                   } else {
                       
-                      window.location.href = "Home.html?user=" + usernameCheck 
+                      window.location.href = "Home.html?user=" + usernameCheck + "&zip=" + passZip 
                                             
                      // msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                   }
@@ -373,7 +377,9 @@ $("#signUp").on("click", function(event){
     $("#inputPassword4").val("");
     $("#inputPassword42").val("");
 
-    window.location.href = "Home.html?user=" + userName
+    window.location.href = "Home.html?user=" + userName + "&zip=" + userZip
+
+    
 
       
 });
@@ -390,32 +396,12 @@ function displayPopup() {
     $(dialogItem).dialog('open');
 }
 
-// Function to display dialog boxes for mostly errors
-function checkuserName() {
-
-    userRef.on("value", function(data) {
-       
-        if (usernameCheck != data.val().userId){
-           
-            loginError = true
-        }
-        if (userpassCheck != data.val().userPassword){
-           
-            loginError = true
-        }
-        console.log("in call " + loginError)
-        return loginError;
-       }, function (error) {
-        console.log("Error: " + error.code);
-     });
-     
-}
-
 function homePage(){
  
 
     var urlParams = new URLSearchParams(window.location.search);
     userReq = urlParams.get('user'); 
+    userZip = urlParams.get('zip');
     console.log(userReq)
 
     var wishCount = 0
@@ -438,7 +424,7 @@ function homePage(){
 
             
                    
-           $("#arefW" + wishCount).attr("href", "ticket.html?id=" + listMovie + "&user=" + userReq)
+           $("#arefW" + wishCount).attr("href", "ticket.html?id=" + response.id + "&user=" + userReq + "&zip=" + userZip)
            $("#imageW" + wishCount).attr("src", "http://image.tmdb.org/t/p/w185//" + response.poster_path ); 
            $("#imageW" + wishCount).addClass("image");
 
@@ -469,14 +455,14 @@ function homePage(){
         var popular = response.results; //shows results of gifs
        
         for (var i=0; i < 16; i++){
-           $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id + "&user=" + userReq)
+           $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id + "&user=" + userReq + "&zip=" + userZip)
            $("#imageT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + popular[i].poster_path ); 
            $("#imageT" + i).addClass("image");
             
         }
        })
                
-    var queryCurrent = "https://api.themoviedb.org/3/movie/now_playing?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=2";
+    var queryCurrent = "https://api.themoviedb.org/3/movie/now_playing?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
         $.ajax({
         url: queryCurrent,
         method: "GET"
@@ -486,7 +472,7 @@ function homePage(){
 
         var current = response.results; //shows results of gifs
         for (var i=0; i < 16; i++){
-            $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id + "&user=" + userReq)
+            $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id + "&user=" + userReq + "&zip=" + userZip)
             $("#imageIT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + current[i].poster_path ); 
             $("#imageIT" + i).addClass("image");
            
@@ -495,7 +481,7 @@ function homePage(){
        
     })
 
-        var queryUpcoming = "https://api.themoviedb.org/3/movie/upcoming?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=2";
+        var queryUpcoming = "https://api.themoviedb.org/3/movie/upcoming?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
         $.ajax({
         url: queryUpcoming,
         method: "GET"
@@ -507,7 +493,7 @@ function homePage(){
 
        
         for (var i=0; i < 16; i++){
-            $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id + "&user=" + userReq)
+            $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id + "&user=" + userReq + "&zip=" + userZip)
             $("#imageU" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + upComing[i].poster_path ); 
             $("#imageU" + i).addClass("image");
            
@@ -523,8 +509,9 @@ function ticketPage() {
     
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id'); 
-    var userId = urlParams.get('user'); 
-    var imdbId = " " 
+    var userId = urlParams.get('user');
+    var userZip = urlParams.get('zip');  
+    
 
     var queryMovie = "https://api.themoviedb.org/3/movie/" + movieId + "?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
     
@@ -552,10 +539,9 @@ function ticketPage() {
         
         })
 
-        var latitude = " "
-        var longitude = " "
+        
         var googleAPI = "https://cors-anywhere.herokuapp.com/maps.googleapis.com/maps/api/geocode/json?/key=AIzaSyALrGs-INdG9Kio-Hhe56cxhY8atmBopz";
-        var zipLookup = "32835";
+        var zipLookup = userZip
         
         console.log(zipLookup);
 
@@ -565,20 +551,13 @@ function ticketPage() {
             sensor: "false"
         })
         .done(function( data ) {
-            console.log(data);
-            //append the FORMATTED ADDRESS
-            $("#response").append( data.results[0].geometry.location.lat );
-            latitude = data.results[0].geometry.location.lat
-            $("#response").append( data.results[0].geometry.location.lng );
-            longitude = data.results[0].geometry.location.lng
-        
-            console.log(latitude)
-            console.log(longitude)
-
-            latLong = '"' + latitude + ',' + longitude + '"' 
-            console.log("location " + latLong)
             
-                
+            //append the FORMATTED ADDRESS            
+            latitude = data.results[0].geometry.location.lat            
+            longitude = data.results[0].geometry.location.lng
+
+            getmovieTimes()
+
         })
         .fail(function( error ) {
             console.log("ERROR");
@@ -588,36 +567,8 @@ function ticketPage() {
   
         console.log("location " + latLong)
                 
-        //var queryCinema = "Access-Control-Allow-Origin: https://api.internationalshowtimes.com/v4/countries?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF";
-        //https://cors-anywhere.herokuapp.com//api.internationalshowtimes.com/v4/cinemas/countries=US/?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF
-        //https://api.internationalshowtimes.com/v4/cinemas?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF
-        //https://api.internationalshowtimes.com/v4/cinemas?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF
-        var corsTry = "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/showtimes?movie_id=" + imdbId + "?apikey=EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF"
-        $.ajax({
-            url: corsTry,
-            method: "GET",
-           
-        }).then(function(data) {
-            console.log(data)
-        })
         
-        //$.ajax({
-        //    url: queryCinema,
-         //   type: "GET"
-        //    }).then(function(response) {
-
-        //        console.log(response);
-        
-        //.done(function(dataresponse, textStatus, jqXHR) {
-        //    console.log("HTTP Request Succeeded: " + jqXHR.status);
-        //    console.log(response);
-        //})
-        //.fail(function(jqXHR, textStatus, errorThrown) {
-        //    console.log("HTTP Request Failed");
-        //})
-        //.always(function() {
-            /* ... */
-       //})
+                
     });
        
         
@@ -631,23 +582,20 @@ $("#addTowish").on("click", function(e){
     var urlParams = new URLSearchParams(window.location.search);
     var movieReq = urlParams.get('id');
     var userId = urlParams.get('user');  
-
-    var wishlistCount = 0
-    var listMovie = " "
-    
+     
     wishRef.on("value", function(snapshot) {
-       var wishlistArr = snapshotToArray(snapshot)
-       for (i=0; i < wishlistArr.length; i++) {
-          if (wishlistArr[i].movieId = movieReq) {
-
-            dialogTitle = "Wishlist"
-            dialogItem = "#wishList"
-            displayPopup()
-            return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
-           
-          }
-      }
-      }, function (error) {
+        var wishlistArr = snapshotToArray(snapshot)
+       
+        for (i=0; i < wishlistArr.length; i++)
+           {
+            if (wishlistArr[i].movieId === movieReq) {
+                //dialogTitle = "Wishlist"
+                //dialogItem = "#wishList"
+                //displayPopup()
+                return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+           }
+        }
+        }, function (error) {
        console.log("Error: " + error.code);
     });
     
@@ -655,7 +603,7 @@ $("#addTowish").on("click", function(e){
     
     dataRef.ref("/users/wishList").push({
         userId: userId,
-        movieId: movieId                     
+        movieId: movieReq                     
     });
 
     
@@ -696,8 +644,116 @@ function getwishList () {
         }, function (error) {
         console.log("Error: " + error.code);
      });
-    }    
+    } 
+    
+function getmovieTimes () {
 
+    var cinemaMovieid = " " 
+    var showtimes = [[]]
+
+    var movieTheaname = " " 
+    var movieTel = " "
+    var movieAddress = " "
+    var theResultsMulti = new Array()
+    var theResultsCinema = new Array()
+
+    $.ajax({
+        url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/movies/",
+        type: "GET",
+        data: {
+            "imdb_id": imdbId,
+            "fields": "id",
+        },
+        headers: {
+            "X-API-Key": "EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF",
+        },
+        })
+        .done(function(data, textStatus, jqXHR) {
+            console.log("HTTP Request Succeeded: " + jqXHR.status);
+            
+            showMovieid = data.movies[0].id
+           
+            $.ajax({
+                url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/showtimes/",
+                type: "GET",
+                data: {
+                    "movie_id": showMovieid,
+                    "location": latitude + "," + longitude,
+                    "distance": 8,
+                              
+                },
+                headers: {
+                    "X-API-Key": "EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF",
+                },
+                })
+                .done(function(data, textStatus, jqXHR) {
+                    console.log("HTTP Request Succeeded: " + jqXHR.status);
+                    console.log(data);
+                    
+                    cinemaMovieid = data.showtimes[0].cinema_id
+
+                    for (i=0; i < data.showtimes.length; i++){
+                        var theResults = new Array(); 
+                        theResults[0] = data.showtimes[i].cinema_id
+                        theResults[1] = data.showtimes[i].start_at
+                        theResultsMulti.push(theResults);             
+                    }
+                    console.log(theResultsMulti)
+                    
+
+                    
+                    $.ajax({
+                        url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/cinemas/",
+                        type: "GET",
+                        data: {
+                            "cinema_id": cinemaMovieid,
+                        },
+                        headers: {
+                            "X-API-Key": "EUAUOAydNnXrUbhrmFDD5YznDJtTT1kF",
+                        },
+                        })
+                        .done(function(data, textStatus, jqXHR) {
+                            console.log("HTTP Request Succeeded: " + jqXHR.status);
+                            console.log(data)
+                            for (j=0; j < data.cinemas.length; j++){
+                                if (cinemaMovieid == data.cinemas[j].id) {
+
+                                    var theCinemas = new Array(); 
+                                    theCinemas[0] = data.cinemas[j].id
+                                    theCinemas[1] = data.cinemas[j].name
+                                    theCinemas[2] = data.cinemas[j].telephone
+                                    theCinemas[3] = data.cinemas[j].location.address.display_text
+                                    theCinemas[4] = data.cinemas[j].location.lat
+                                    theCinemas[5] = data.cinemas[j].location.lon
+                                    theResultsCinema.push(theCinemas);                                   
+                            }}
+                           
+                            console.log(theResultsCinema)
+                            
+
+                                                    })
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log("HTTP Request Failed");
+                        })
+                        .always(function() {
+                            /* ... */
+                        });
+                   
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    console.log("HTTP Request Failed");
+                })
+                .always(function() {
+                    /* ... */
+                });
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log("HTTP Request Failed");
+        })
+        .always(function() {
+            /* ... */
+        });    
+    }
     
 });
 
