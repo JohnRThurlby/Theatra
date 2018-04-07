@@ -1,7 +1,8 @@
-// Developed by John R. Thurlby, March. 2018.
+// Developed by John R. Thurlby, March/April. 2018.
 
 $(document).ready(function() {
 
+    // Global variables
     var gifDiv = " "
         gifImage = " "
         carouString = " " 
@@ -20,7 +21,6 @@ $(document).ready(function() {
         passZip = " " 
         googleLat = " "
         googleLong = " " 
-
            
         // Initialize Firebase
 	var config = {
@@ -30,7 +30,9 @@ $(document).ready(function() {
 		projectId: "robs-ucf",
 		storageBucket: "robs-ucf.appspot.com",
 		messagingSenderId: "83769074358"
-	  };
+      };
+    
+       // set Firebase variables
 	firebase.initializeApp(config);
 
     var dataRef = firebase.database();
@@ -40,7 +42,8 @@ $(document).ready(function() {
     var wishRef = dataRef.ref().child("users/wishList");
         
     var url  = window.location.href; 
-    
+
+    // determine where we are
     if (url.indexOf("ticket.html") >= 0) {
        ticketPage()
     }
@@ -49,45 +52,24 @@ $(document).ready(function() {
      }
 
 $(function(){
-    // themoviedb url
-        
+// get posters from the movieDB api to populate welcome page
+    
     var queryURL = "https://api.themoviedb.org/3/discover/movie?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&primary_release_date.gte=2018-03-01&primary_release_date.lte=2018-04-30";
         $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response) {
 
-        
-
-        var results = response.results; //shows results of gifs
+        var results = response.results; 
                                         
-        for (var i=0; i < results.length; i++){
+        for (var i=0; i < results.length; i++){    // loop thru response to get posters
                 
-			    $("#image" + i).attr("src", "http://image.tmdb.org/t/p/w342//" + results[i].poster_path ); 
-                $("#image" + i).addClass("image");
-				
-            }
-        
-    })
+            $("#image" + i).attr("src", "http://image.tmdb.org/t/p/w342//" + results[i].poster_path ); 
+            $("#image" + i).addClass("image");
+                
+        }
     
-
-  $(function() {
-    
-    // contact form animations
-    $('#contact').click(function() {
-      $('#contactForm').fadeToggle("slow");
-    })
-    $(document).mouseup(function (e) {
-      var container = $("#contactForm");
-  
-      if (!container.is(e.target) // if the target of the click isn't the container...
-          && container.has(e.target).length === 0) // ... nor a descendant of the container
-      {
-          container.fadeOut() 
-      }
-    });
-    
-  });
+})
 
   $(function() {
     
@@ -107,8 +89,6 @@ $(function(){
     
   });
 
-    
-
     $( '.dropdown-menu a' ).on( 'click', function( event ) {
 
       var $target = $( event.currentTarget ),
@@ -125,8 +105,7 @@ $(function(){
       }
 
       $( event.target ).blur();
-          
-      
+     
       return false;
     });
 
@@ -165,8 +144,7 @@ $(function(){
                    }, function (error) {
                     console.log("Error: " + error.code);
                  });
-                     
-                  
+                       
                   if (loginError == true) {
                   
                       msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
@@ -245,10 +223,12 @@ $(function(){
   });
 });
 
-
+// back button pressed on ticket movie page
 $("#backBtn").on("click", function(event){
+
     event.preventDefault();
 
+    // pass back variables in url
     var urlParams = new URLSearchParams(window.location.search);
     var userId = urlParams.get('user');
     var userZip = urlParams.get('zip'); 
@@ -256,123 +236,127 @@ $("#backBtn").on("click", function(event){
 
 });
 
+// close button pressed on profile dialog box, close dialog
 $(".closeButton").on("click", function(event){
     event.preventDefault();
     $(dialogItem).dialog('close');
     
 });
 
+// sign up function
 $("#signUp").on("click", function(event){
-    event.preventDefault();
 
-    
+    event.preventDefault();    
 
-    
-
-    //get name input from text box
+    //get first name input from text box
     var firstName = $("#inputFirst4").val().trim();
 
-    if (firstName == ""){   //nothing entered in text box.
+    //nothing entered in text box.
+    if (firstName == ""){   
         dialogTitle = "First Name"
         dialogItem = "#addName"
         displayPopup()
-        return false; // added so user cannot add a blank train name
+        return false; // added so user cannot add a blank first name
     }
     
-    //get middle initial input from text box
+    //get middle name input from text box. no validation as some people do not have middle names
     var midInit = $("#inputMiddle4").val().trim();
 
-   //get start time input from text box
+   //get last name input from text box
     var lastName = $("#inputLast4").val().trim();
-            
-    if(lastName == "") {
+
+     //nothing entered in text box.       
+    if(lastName == "") { 
         dialogTitle = "Last Name"
         dialogItem = "#lastName"
         displayPopup()
-        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+        return false; // added so user cannot add a blank last name 
     }
     
-    //get start time input from text box
+    //get semail input from text box
     var emailIn = $("#inputEmail").val().trim();
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-            
-    if(emailIn == "" || ! emailIn.match(regex)) {
+    
+    //nothing entered in text box or email not in correct email format.
+    if(emailIn == "" || ! emailIn.match(regex)) {  
         dialogTitle = "Email"
         dialogItem = "#email"
         displayPopup()
-        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+        return false; // added so user cannot add a blank email or or incorrect format email
     }
 
-    //get frequency input from text box
+    //get zip input from text box
     var userZip = $("#inputZip").val().trim();
-        
-    if (userZip == ""){   //nothing entered in text box.
+    
+     //nothing entered in text box.
+    if (userZip == ""){  
         dialogTitle = "Zip Code"
         dialogItem = "#zipCode"
         displayPopup()
-        return false; // added so user cannot add a blank frequency
+        return false; // added so user cannot add a blank zip
     }
-    else if ( $.isNumeric(userZip) != true) {
+    else if ( $.isNumeric(userZip) != true) {    
         dialogTitle = "Zip Code"
         dialogItem = "#zipCode"
         displayPopup()
-        return false; // added so user must enter a numeric frequency        
+        return false; // added so user must enter a numeric zip        
     }
     else {
-        
+        // added so user must enter a valid zip, call to zippopotam
+
         var client = new XMLHttpRequest();
         client.open("GET", 'http://api.zippopotam.us/us/' + userZip, true);
         
         client.onreadystatechange = function() {
-	    if(client.readyState == 4 && client.status == 404) {
-            
+	    if(client.readyState == 4 && client.status == 404) {   
+            // not a valid zip code
             dialogTitle = "Zip Code"
             dialogItem = "#zipCode"
             displayPopup()
             return false; 
 		    //alert(client.responseText);
     }};
-    client.send();
+             client.send();
     };
-     
-    
-
-    //get start time input from text box
+   
+    //get user name input from text box
     var userName = $("#inputusername4").val().trim();
             
     if(userName == "") {
         dialogTitle = "User Name"
         dialogItem = "#userName"
         displayPopup()
-        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+        return false; // added so user cannot add a blank user name
     }
 
-    //get start time input from text box
+    //get password input from text box
     var userPass1 = $("#inputPassword4").val().trim();
-            
-    if(userPass1 == "") {
+     
+    //password cannot be blank
+    if(userPass1 == "") {               
         dialogTitle = "Password"
         dialogItem = "#passWord"
         displayPopup()
-        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+        return false; // added so user cannot add a blank password
     }
     
+    //password cannot be the same as userid
     if(userPass1 === userName) {
        
         dialogTitle = "Password"
         dialogItem = "#passWord1"
         displayPopup()
-        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+        return false; // added so user cannot add a password the same as their userid
     }
     
-    //get start time input from text box
+    //get password confirmation input from text box
     var userPass2 = $("#inputPassword42").val().trim();
           
     if(userPass2 == "" || userPass2 !== userPass1) {
         dialogTitle = "Password"
         dialogItem = "#passWord2"
         displayPopup()
-        return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
+        return false; // added so user cannot add a blank second password and must be the same as first password
     }
     // Push into firebase DB
     
@@ -397,12 +381,11 @@ $("#signUp").on("click", function(event){
     $("#inputPassword4").val("");
     $("#inputPassword42").val("");
 
+    // Go to main page
     window.location.href = "Home.html?user=" + userName + "&zip=" + userZip
-
-    
-
       
 });
+
 // Function to display dialog boxes for mostly errors
 function displayPopup() {
     
@@ -415,25 +398,29 @@ function displayPopup() {
     });
     $(dialogItem).dialog('open');
     
-    
 }
 
+// main movie page function
 function homePage(){
- 
 
+    //get user id and zip from url
     var urlParams = new URLSearchParams(window.location.search);
     userReq = urlParams.get('user'); 
     userZip = urlParams.get('zip');
-    console.log(userReq)
-
+    
     var wishCount = 0
     var listMovie = " "
+    wishArr = " " 
     
+    // get wish list for user
     wishRef.on("value", function(snapshot) {
-       var wishArr = snapshotToArray(snapshot)
-       for (i=0; i < wishArr.length; i++) {
-          if (wishArr[i].userId = userReq) {
 
+       var wishArr = snapshotToArray(snapshot)
+       
+       for (i=0; i < wishArr.length; i++) {
+
+          if (wishArr[i].userId === userReq) {
+            
             listMovie = wishArr[i].movieId
             
             var queryWish = "https://api.themoviedb.org/3/movie/" + listMovie + "?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
@@ -443,16 +430,13 @@ function homePage(){
             }).then(function(response) {
             
             console.log(response)
-
-            
-                   
+         
            $("#arefW" + wishCount).attr("href", "ticket.html?id=" + response.id + "&user=" + userReq + "&zip=" + userZip)
            $("#imageW" + wishCount).attr("src", "http://image.tmdb.org/t/p/w185//" + response.poster_path ); 
            $("#imageW" + wishCount).addClass("image");
 
            wishCount++
-             
-            
+          
            })
             
           }
@@ -460,19 +444,19 @@ function homePage(){
       }, function (error) {
        console.log("Error: " + error.code);
     });
- 
 
-   
-             
+    if ( wishCount < 9 ){ 
+        $(".carousel-control-prev").empty()
+        $(".carousel-control-next").empty()
+        $("#carouselExampleIndicators1").attr("data-interval", "false")
 
+    }
 
     var queryPopular = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
         $.ajax({
         url: queryPopular,
         method: "GET"
     }).then(function(response) {
-
-        
                     
         var popular = response.results; //shows results of gifs
        
@@ -823,6 +807,3 @@ function getmovieTimes () {
     }
     
 });
-
-
-  
