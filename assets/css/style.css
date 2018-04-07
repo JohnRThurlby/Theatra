@@ -1,23 +1,25 @@
 * { box-sizing: border-box;
     margin: 0px;}
-
 html Home{
     height: 100%
 }
-
 @import "https://fonts.googleapis.com/css?family=Raleway";
 body { 
+    width: 100%;
   margin: 0; 
   padding: 0; 
-  background: lightgray;
+  background: no-repeat center center fixed;
   font-family: Raleway; 
   /*text-transform: uppercase; */
   font-size: 11px; 
   background-image: url("assets/images/overlay.png"), linear-gradient(45deg, #1a7567 20%, #2dbca9 60%, #efd22b);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   
   
 }
-
 #header {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -25,11 +27,8 @@ body {
     height: 310px;
     .image {
         size: 150px;
-
     }
 }
-
-
 #contact { 
   -webkit-user-select: none; /* Chrome/Safari */        
   -moz-user-select: none; /* Firefox */
@@ -45,25 +44,18 @@ body {
   cursor: pointer;
   border: 1px solid white;
 }
-
 #mainlogo {
-
     display: contents;
     max-width: 100%; 
     height: auto; 
 }
-
 #mainpagecarousel {
-
     display: contents;
     max-width: 100%; 
     height: auto; 
 }
-
-
 #contact:hover { background: #666; }
 #contact:active { background: #444; }
-
 #contactForm { 
   display: none;
   border: 6px solid salmon; 
@@ -78,7 +70,6 @@ body {
   -webkit-transform: translate(-50%,-50%)
   
 }
-
 input, textarea { 
     margin: 0.8em auto;
     font-family: inherit;
@@ -91,7 +82,6 @@ input, textarea {
     height: auto; 
 }
 textarea { height: 80px; resize: none; }
-
 .formBtn { 
   width: 140px;
   display: inline-block;
@@ -103,7 +93,6 @@ textarea { height: 80px; resize: none; }
   border: none;
   height: 30px;
 }
-
 /* Bordered form */
 form {
   padding: 30px;  
@@ -112,7 +101,6 @@ form {
   margin-top: -12px;
   margin-bottom: 20px;
 }
-
 /* Full-width inputs */
 input[type=text], input[type=password] {
   width: 100%;
@@ -122,7 +110,6 @@ input[type=text], input[type=password] {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
-
 /* Set a style for all buttons */
 button {
     background: rgb(192, 192, 240);
@@ -138,53 +125,44 @@ button {
     z-index: 9999;
     background-color: #007CB8;
 }
-
 .btn {
     background-color: rgb(6, 117, 75);
 }
-
 /* Add a hover effect for buttons */
 button:hover {
     color: rgb(97, 97, 107);
     opacity: 0.8;
 }
-
 /* Extra style for the cancel button (red) */
 .cancelbtn {
   width: auto;
   padding: 10px 18px;
   background-color: #f44336;
 }
-
 /* Center the avatar image inside this container */
 .imgcontainer {
   text-align: center;
   margin: 35px 0 12px 0;
 }
-
 /* Avatar image */
 img.avatar {
   width: 40%;
   border-radius: 50%;
 }
-
 /* Add padding to containers */
 .container {
-  padding: 0px;
-  z-index: 99999;
-  background-color: rgb(209, 218, 209);; 
-  margin-bottom: -71px;
-  margin-top: 36px;
-  width: 600px;
-
+    padding: 0px;
+    z-index: 99999;
+    background-color: rgb(209, 218, 209);
+    margin-bottom: 0px;
+    margin-top: 0px;
+    width: 600px;
 }
-
 /* The "Forgot password" text */
 span.psw {
   float: right;
   padding-top: 16px;
 }
-
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
   span.psw {
@@ -195,22 +173,17 @@ span.psw {
       width: 100%;
   }
 }
-
 @import url(http://fonts.googleapis.com/css?family=Roboto);
-
 * {
     font-family: 'Roboto', sans-serif;
     color: black;
 }
-
 #login-modal .modal-dialog {
     width: 350px;
 }
-
 #login-modal input[type=text], input[type=password] {
-	margin-top: 10px;
+    margin-top: 10px;
 }
-
 #div-login-msg,
 #div-lost-msg,
 #div-register-msg {
@@ -219,21 +192,18 @@ span.psw {
     line-height: 28px;
     transition: all ease-in-out 500ms;
 }
-
 #div-login-msg.success,
 #div-lost-msg.success,
 #div-register-msg.success {
     border: 1px solid #68c3a3;
     background-color: #c8f7c5;
 }
-
 #div-login-msg.error,
 #div-lost-msg.error,
 #div-register-msg.error {
     border: 1px solid #eb575b;
     background-color: #ffcad1;
 }
-
 #icon-login-msg,
 #icon-lost-msg,
 #icon-register-msg {
@@ -245,67 +215,55 @@ span.psw {
     margin-right: 5px;
     transition: all ease-in-out 500ms;
 }
-
 #icon-login-msg.success,
 #icon-lost-msg.success,
 #icon-register-msg.success {
     background-color: #68c3a3 !important;
 }
-
 #icon-login-msg.error,
 #icon-lost-msg.error,
 #icon-register-msg.error {
     background-color: #eb575b !important;
 }
-
 #img_logo {
     max-height: 100px;
     max-width: 100px;
 }
-
 /* #########################################
    #    override the bootstrap configs     #
    ######################################### */
-
 .modal-backdrop.in {
     filter: alpha(opacity=50);
     opacity: .8;
 }
-
 .modal-content {
     background-color: #ececec;
     border: 1px solid #bdc3c7;
     border-radius: 0px;
     outline: 0;
 }
-
 .modal-header {
     min-height: 16.43px;
     padding: 15px 15px 15px 15px;
     border-bottom: 0px;
     background-color: white;
 }
-
 .modal-body {
     position: relative;
     padding: 5px 15px 5px 15px;
 }
-
 .modal-footer {
     padding: 15px 15px 15px 15px;
     text-align: left;
     border-top: 0px;
 }
-
 .checkbox {
     margin-bottom: 0px;
     margin-left:-35px;
 }
-
 .btn {
     border-radius: 6px;
 }
-
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus,
@@ -314,41 +272,32 @@ span.psw {
 .btn.active.focus {
     outline: none;
 }
-
 .btn-lg, .btn-group-lg>.btn {
     border-radius: 0px;
 }
-
 .btn-link {
     padding: 5px 10px 0px 0px;
     color: #95a5a6;
 }
-
 .btn-link:hover, .btn-link:focus {
     color: #2c3e50;
     text-decoration: none;
 }
-
 .glyphicon {
     top: 0px;
 }
-
 .form-control {
   border-radius: 6px;
 }
-
 footer {
-
     background:white;
     text-align: center;
     padding: 25px;
     color: black
 }
-
 header {
     background: white;
 }
-
 .row {
     border: 14.5px solid black;
     background-color: black;
@@ -356,7 +305,6 @@ header {
     margin-bottom: 15px;
     margin-top: -3px;
 }
-
 .jumbotron {
     padding: 30px;
     margin-bottom: 15px;
@@ -369,36 +317,28 @@ header {
     text-align: center;
     color: black;
 }
-
 .item {
-
     size: 300px;
-
 }
-
 img {
     display: inline-block;
     
 }
-
 .carousel-indicators {
     display: none;
 }
-
 .carousel-inner {
     position: relative;
     width: 100%;
     overflow: hidden;
     margin-left: 85px;
 }
-
 #carousel-inners {
     position: relative;
     width: 100%;
     overflow: hidden;
     margin-left: 40px;
 }
-
 #signUp {
     text-align: center;
     margin: -40px 50px; 
@@ -407,40 +347,32 @@ img {
     left:80%;
     
 }
-
 .close{
     position: absolute;
     left:38%;
 }
-
 #loginbtn {
     text-align: center;
-    margin-left: -20px;
-    margin-right:25px;
-    margin-bottom:35px;
-    position:relative;
-    
+    margin-left: 91px;
+    margin-right: -71px;
+    margin-bottom: 98px;
+    position: relative;
 }
-
 #login_lost_btn {
     text-align: center;
     margin-top: 80px;
-    margin-left:-90px;
+    margin-left: 5px;
     margin-bottom: 4px;
-    
 }
-
 #registerbt {
     position: absolute;
    
 }
-
 #checkBoxLabel {
     display:block;
     padding-left:15px;
     text-indent:10px;
 }
-
 #checkBoxInput{
     width: 13px;
     height: 13px;
@@ -451,37 +383,30 @@ img {
     top: -1px;
     overflow: hidden;
 }
-
 #google_translate_element {
     float: right;
 }
-
 .goog-logo-link, .goog-logo-link:link, .goog-logo-link:visited, .goog-logo-link:hover, .goog-logo-link:active {
     font-size: 0px;
     font-weight: bold;
     color: #444;
     text-decoration: none;
 }
-
 .form-row>[class*=col-] {
     padding-right: 5px;
     padding-left: 5px;
     margin-top: 12px;
 }
-
 #description {
     margin-left: 0px;
 }
-
 #theaters {
     margin-left: 85px;
 }
-
 a {
     color: white;
     text-decoration: none;
 }
-
 .container-fluid {
     width: 100%;
     padding-right: 0px;
@@ -489,7 +414,6 @@ a {
     margin-right: auto;
     margin-left: auto;
 }
-
 .goog-te-gadget {
     margin-right: 45px;
     font-family: arial;
@@ -498,28 +422,21 @@ a {
     white-space: nowrap;
     float: left;
 }
-
 #titlecarousel {
     text-align: center;
     font-weight: 900;
 }
-
 #footersignup {
     margin-top: 15px;
 }
-
 #googlemap {
-
     margin-left: 45px;
     margin-top: 55px;
 }
-
 #movietrailer {
-
     margin-left: 45px;
     margin-top: 55px;
 }
-
 .ui-dialog {
 display: block;
 z-index: 1002;
@@ -534,17 +451,25 @@ background-color: tomato;
 text-align: center;
 font-size: 24px;
 }
-
 .ui-helper-clearfix {
     display: none;
 }
-
 #div-forms{
 background-color:#2dbca9;
-
 }
-
+.modal-footer {
+    display: -webkit-box !important;
+    display: flex !important;
+    align-items: center !important;
+}
 button#backBtn {
     width: 67px;
     margin-left: 15px;
- }
+}
+button.btn.btn-primary.btn-lg.btn-block {
+    width: 81px;
+    float: right;
+    margin-right: -39px;
+    margin-bottom: 237px;
+    
+}

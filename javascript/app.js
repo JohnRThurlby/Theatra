@@ -255,6 +255,13 @@ $("#backBtn").on("click", function(event){
     window.location.href = "Home.html?user=" + userId + "&zip=" + userZip  
 
 });
+
+$(".closeButton").on("click", function(event){
+    event.preventDefault();
+    $(dialogItem).dialog('close');
+    
+});
+
 $("#signUp").on("click", function(event){
     event.preventDefault();
 
