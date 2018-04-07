@@ -73,68 +73,100 @@
             
                 </div>
                 </div>
-    <div class="container">
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="inputFirst4">First Name</label>
-                    <input type="First Name" class="form-control" id="inputFirst4" placeholder="First Name">
-                    <div id="addName" style="display: none" align = "center" background-color= "green">  
-                        <p>You must enter a first name.</p> 
-                    </div> <!-- end the dialog div  -->
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="inputMiddle4">Middle Name</label>
-                        <input type="Middle Name" class="form-control" id="inputMiddle4" placeholder="Middle Name">
+                <div class="container">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputFirst4">First Name</label>
+                                    <input type="First Name" class="form-control" id="inputFirst4" placeholder="First Name">
+                                    <div id="addName" style="display: none" align="center" background-color="green">
+                                        <p>You must enter a first name.</p>
+                                        <div class="modal-footer">
+                                            <button onclick="addName" class="btn btn-default" data-dismiss="addName">Close</button>
+                                        </div>
+                                    </div>
+                                    <!-- end the dialog div  -->
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="inputMiddle4">Middle Name</label>
+                                        <input type="Middle Name" class="form-control" id="inputMiddle4" placeholder="Middle Name">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputLast4">Last Name</label>
+                                        <input type="Last Name" class="form-control" id="inputLast4" placeholder="Last Name">
+                                        <div id="lastName" style="display: none" align="center" background-color="green">
+                                            <p>You must enter a last name.</p>
+                                            <div class="modal-footer">
+                                                <button onclick="addName" class="btn btn-default" data-dismiss="addName">Close</button>
+                                            </div>
+                                        </div>
+                                        <!-- end the dialog div  -->
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail">Email</label>
+                                        <input type="text" class="form-control" id="inputEmail" placeholder="email@gmail.com">
+                                        <div id="email" style="display: none" align="center" background-color="green">
+                                            <p>You must enter a correctly formatted email.</p>
+                                            <div class="modal-footer">
+                                                <button onclick="addName" class="btn btn-default" data-dismiss="addName">Close</button>
+                                            </div>
+                                        </div>
+                                        <!-- end the dialog div  -->
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputZip">Zip</label>
+                                        <input type="text" class="form-control" id="inputZip" placeholder="32811">
+                                        <div id="zipCode" style="display: none" align="center" background-color="green">
+                                            <p>You must enter a valid zip code.</p>
+                                            <div class="modal-footer">
+                                                <button onclick="addName" class="btn btn-default" data-dismiss="addName">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputusername4">Username</label>
+                                        <input type="username" class="form-control" id="inputusername4" placeholder="ABC123">
+                                        <div id="userName" style="display: none" align="center" background-color="green">
+                                            <p>You must enter a valid user name.</p>
+                                            <div class="modal-footer">
+                                                <button onclick="addName" class="btn btn-default" data-dismiss="addName">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword4">Password</label>
+                                        <input type="Password" class="form-control" id="inputPassword4" placeholder="Password">
+                                        <div id="passWord" style="display: none" align="center" background-color="green">
+                                            <p>You must enter a password.</p>
+                                            <div class="modal-footer">
+                                                <button onclick="addName" class="btn btn-default" data-dismiss="addName">Close</button>
+                                            </div>
+                                        </div>
+                                        <div id="passWord1" style="display: none" align="center" background-color="green">
+                                            <p>Password cannot be the same as your User Name.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword42">Confirm Password</label>
+                                        <input type="Password" class="form-control" id="inputPassword42" placeholder="Confirm Password">
+                                        <div id="passWord2" style="display: none" align="center" background-color="green">
+                                            <p>Passwords do not match.</p>
+                                            <div class="modal-footer">
+                                                <button onclick="addName" class="btn btn-default" data-dismiss="addName">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <button type="submit" align="center" class="btn btn-primary" id="signUp">Sign Up</button>
+                                    </div>
+                                </div>
+                        </form>
+                        </div>
                     </div>
-                <div class="form-group col-md-12">
-                    <label for="inputLast4">Last Name</label>
-                    <input type="Last Name" class="form-control" id="inputLast4" placeholder="Last Name">
-                    <div id="lastName" style="display: none" align = "center" background-color= "green">
-                        <p>You must enter a last name.</p> 
-                    </div> <!-- end the dialog div  -->
-                </div>
-                <div class="form-group col-md-12">
-                    <label for="inputEmail">Email</label>
-                    <input type="text" class="form-control" id="inputEmail" placeholder="email@gmail.com">
-                    <div id="email" style="display: none" align = "center" background-color= "green">
-                        <p>You must enter a correctly formatted email.</p> 
-                    </div> <!-- end the dialog div  -->
-                </div>
-                    <div class="form-group col-md-12">
-                        <label for="inputZip">Zip</label>
-                        <input type="text" class="form-control" id="inputZip" placeholder="32811">
-                        <div id="zipCode" style="display: none" align = "center" background-color= "green">
-                            <p>You must enter a valid zip code.</p> 
-                        </div> 
-                    </div>
-                <div class="form-group col-md-12">
-                    <label for="inputusername4">Username</label>
-                    <input type="username" class="form-control" id="inputusername4" placeholder="ABC123">
-                    <div id="userName" style="display: none" align = "center" background-color= "green">
-                        <p>You must enter a valid user name.</p> 
-                    </div> 
-                </div>
-                <div class="form-group col-md-12">
-                    <label for="inputPassword4">Password</label>    
-                    <input type="Password" class="form-control" id="inputPassword4" placeholder="Password">
-                    <div id="passWord" style="display: none" align = "center" background-color= "green">
-                        <p>You must enter a password.</p> 
-                    </div>
-                    <div id="passWord1" style="display: none" align = "center" background-color= "green">
-                        <p>Password cannot be the same as your User Name.</p> 
-                    </div>
-                </div>
-                <div class="form-group col-md-12">
-                    <label for="inputPassword42">Confirm Password</label>    
-                    <input type="Password" class="form-control" id="inputPassword42" placeholder="Confirm Password">
-                    <div id="passWord2" style="display: none" align = "center" background-color= "green">
-                        <p>Passwords do not match.</p> 
-                    </div>
-                </div>
-            </div>
-
+                
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <button type="submit" align = "center" class="btn btn-primary" id="signUp">Sign Up</button>

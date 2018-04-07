@@ -407,6 +407,8 @@ function displayPopup() {
         height: 150
     });
     $(dialogItem).dialog('open');
+    
+    
 }
 
 function homePage(){
@@ -632,7 +634,7 @@ $("#ticketPurchase").on("click", function(e){
 
     
 
-    window.location = 'https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&date=06-14-2011+21:50'
+    // window.location = 'https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&date=06-14-2011+21:50'
              
 });
 
@@ -655,7 +657,7 @@ function getwishList () {
         for (i=0; i < wishArr.length; i++) {
             if (wishArr[i].userId = userReq) {
                 listArr[i] = wishArr[i].movieId
-                console.log("list in for loop " + listArr)
+                
             }
         }
         }, function (error) {
@@ -721,13 +723,11 @@ function getmovieTimes () {
                             cinemasId[cinemaCount] = data.showtimes[i].cinema_id
                             cinemaCount++
                         }
-                        }            
+                        } 
+                                   
                     }
-                    console.log(theResultsMulti)
-                    console.log(cinemasId)
-                    
-
-                    
+                                             
+                                 
                     $.ajax({
                         url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/cinemas/",
                         type: "GET",
@@ -740,7 +740,7 @@ function getmovieTimes () {
                         })
                         .done(function(data, textStatus, jqXHR) {
                             console.log("HTTP Request Succeeded: " + jqXHR.status);
-                            console.log(data)
+                            
                             cinemaCount = 0
                             for (j=0; j < data.cinemas.length; j++){
                                 if (cinemasId[cinemaCount] == data.cinemas[j].id) {
@@ -757,15 +757,10 @@ function getmovieTimes () {
                                     cinemaCount++                                   
                             }}
                             
-                            for (i=0; i < 6; i++ ){
-                                $("#ticketPurchase" + i).hide()
-                                $("#dropdownMenuButton" + i).hide()
-                                 
-                            }
+                            
                                                         
                             for (i=0; i < theResultsCinema.length; i++ ){
-                                $("#ticketPurchase" + i).show()
-                                $("#dropdownMenuButton" + i).show()
+                                
                                 $("#theaterName" + i).text(theResultsCinema[i][1]);
                                 $("#theaterTel" + i).text(theResultsCinema[i][2]);
                                 $("#theaterAddr" + i).text(theResultsCinema[i][3])

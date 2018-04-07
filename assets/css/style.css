@@ -543,3 +543,8 @@ font-size: 24px;
 background-color:#2dbca9;
 
 }
+
+button#backBtn {
+    width: 67px;
+    margin-left: 15px;
+ }

@@ -21,8 +21,9 @@
    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&libraries=places"></script>
    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&callback=initMap">
-    </script>
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-vYzGC3fEWIUt7dhItwHdmq8uCe7yGQ&callback=initMap"></script>
+   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    
    <!-- Local CSS style sheet -->
   <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
   <!-- Local JavaScript --> 
@@ -88,50 +89,49 @@
             <div class="form-group col-md-7">
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-5">
                             <h4 id=theaterName0></h4>
                             <h4 id=theaterTel0></h4>
                             <h4 id=theaterAddr0></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton0" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                <button class="dropbtn" id="dropdownMenuButton0">Showtimes</button>
+                                <div class="dropdown-content">
+                                    <h4 id=theaterShow00></h4>
+                                    <h4 id=theaterShow01></h4>
+                                    <h4 id=theaterShow02></h4>
+                                    <h4 id=theaterShow03></h4>
                                 </div>
+                                        
+                                
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <a class="btn btn-default" href="#" role="button" id="ticketPurchase0">Buy Tickets via Fandango</a>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
                     <div class="form-row" id="theaters">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-5">
                             <h4 id=theaterName1></h4>
                             <h4 id=theaterTel1></h4>
                             <h4 id=theaterAddr1></h4>
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                
+                                <button class="dropbtn" id="dropdownMenuButton1">Showtimes</button>
+                                <div class="dropdown-content">
+                                    <h4 id=theaterShow10></h4>
+                                    <h4 id=theaterShow11></h4>
+                                    <h4 id=theaterShow12></h4>
+                                    <h4 id=theaterShow13></h4>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <a class="btn btn-default" href="#" role="button" id="ticketPurchase1">Buy Tickets via Fandango</a>
                         </div>
                     </div>
@@ -144,15 +144,16 @@
                             <h4 id=theaterAddr2></h4>
                         </div>
                         <div class="form-group col-md-4">
+
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                
+                                
+                                <button class="dropbtn" id="dropdownMenuButton2">Showtimes</button>
+                                <div class="dropdown-content">
+                                    <h4 id=theaterShow20></h4>
+                                    <h4 id=theaterShow21></h4>
+                                    <h4 id=theaterShow22></h4>
+                                    <h4 id=theaterShow23></h4>
                                 </div>
                             </div>
                         </div>
@@ -170,14 +171,12 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <button class="dropbtn" id="dropdownMenuButton3">Showtimes</button>
+                                <div class="dropdown-content">
+                                    <h4 id=theaterShow30></h4>
+                                    <h4 id=theaterShow31></h4>
+                                    <h4 id=theaterShow32></h4>
+                                    <h4 id=theaterShow33></h4>
                                 </div>
                             </div>
                         </div>
@@ -195,15 +194,13 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
+                                    <button class="dropbtn" id="dropdownMenuButton4">Showtimes</button>
+                                    <div class="dropdown-content">
+                                        <h4 id=theaterShow40></h4>
+                                        <h4 id=theaterShow41></h4>
+                                        <h4 id=theaterShow42></h4>
+                                        <h4 id=theaterShow43></h4>
+                                    </div>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
@@ -220,15 +217,13 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton5" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
+                                    <button class="dropbtn" id="dropdownMenuButton5">Showtimes</button>
+                                    <div class="dropdown-content">
+                                        <h4 id=theaterShow50></h4>
+                                        <h4 id=theaterShow51></h4>
+                                        <h4 id=theaterShow52></h4>
+                                        <h4 id=theaterShow53></h4>
+                                    </div>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
