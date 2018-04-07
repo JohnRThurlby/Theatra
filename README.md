@@ -5,4 +5,14 @@ Theatra is a movie app, when user inputs their zip code, the user will then see 
 2. Upon entering, it either takes them to a page that displays their widhlist, trnding, upcoming, and in theater movies. 
 3. If they are not currently registerd, a sign up page is shown, allowing them to create a userid and password. 
 4. On the home page,  a user can click on a poster and further details about that movie are shown, including theaters if the movie is        still running. 
-5. A user can add a movie onto thier wishlist if they desire.  
+5. A user can add a movie onto thier wishlist if they desire. 
+
+Group consisted of:
+Antonio C Kniss, Jr. Design/Styling
+Lina Li, API's 
+Alejandro Rivera Jr., Frontend
+John R Thurlby, Backend and Team Lead
+
+Technologies used: HTML, CSS, Javascript, JQuery, Firebase, Bootstrap. 
+API's used: TheMovieDB, InternationalShowtimes, Google maps, Zippopotam. 
+Others: YouTube
