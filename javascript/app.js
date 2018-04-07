@@ -245,6 +245,16 @@ $(function(){
   });
 });
 
+
+$("#backBtn").on("click", function(event){
+    event.preventDefault();
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var userId = urlParams.get('user');
+    var userZip = urlParams.get('zip'); 
+    window.location.href = "Home.html?user=" + userId + "&zip=" + userZip  
+
+});
 $("#signUp").on("click", function(event){
     event.preventDefault();
 
@@ -515,7 +525,11 @@ function ticketPage() {
     var userId = urlParams.get('user');
     var userZip = urlParams.get('zip');  
     
-
+    for (i=0; i < 6; i++ ){
+        $("#ticketPurchase" + i).hide()
+        $("#dropdownMenuButton" + i).hide()
+         
+    }
     var queryMovie = "https://api.themoviedb.org/3/movie/" + movieId + "?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
     
         $.ajax({
@@ -684,7 +698,7 @@ function getmovieTimes () {
                 data: {
                     "movie_id": showMovieid,
                     "location": latitude + "," + longitude,
-                    "distance": 20,
+                    "distance": 10,
                               
                 },
                 headers: {

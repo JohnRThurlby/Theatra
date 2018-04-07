@@ -13,7 +13,7 @@ body {
   font-family: Raleway; 
   /*text-transform: uppercase; */
   font-size: 11px; 
-  background-image: url("../../images/overlay.png"), linear-gradient(45deg, #1a7567 20%, #2dbca9 60%, #efd22b);
+  background-image: url("assets/images/overlay.png"), linear-gradient(45deg, #1a7567 20%, #2dbca9 60%, #efd22b);
   
   
 }
@@ -283,6 +283,7 @@ span.psw {
     min-height: 16.43px;
     padding: 15px 15px 15px 15px;
     border-bottom: 0px;
+    background-color: white;
 }
 
 .modal-body {
@@ -298,6 +299,7 @@ span.psw {
 
 .checkbox {
     margin-bottom: 0px;
+    margin-left:-35px;
 }
 
 .btn {
@@ -406,6 +408,50 @@ img {
     
 }
 
+.close{
+    position: absolute;
+    left:38%;
+}
+
+#loginbtn {
+    text-align: center;
+    margin-left: -20px;
+    margin-right:25px;
+    margin-bottom:35px;
+    position:relative;
+    
+}
+
+#login_lost_btn {
+    text-align: center;
+    margin-top: 80px;
+    margin-left:-90px;
+    margin-bottom: 4px;
+    
+}
+
+#registerbt {
+    position: absolute;
+   
+}
+
+#checkBoxLabel {
+    display:block;
+    padding-left:15px;
+    text-indent:10px;
+}
+
+#checkBoxInput{
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    overflow: hidden;
+}
+
 #google_translate_element {
     float: right;
 }
@@ -491,4 +537,9 @@ font-size: 24px;
 
 .ui-helper-clearfix {
     display: none;
+}
+
+#div-forms{
+background-color:#2dbca9;
+
 }
