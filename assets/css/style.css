@@ -473,3 +473,14 @@ button.btn.btn-primary.btn-lg.btn-block {
     margin-bottom: 237px;
     
 }
+
+.map {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 35px;
+    background-color: rgb(229, 227, 223);
+    margin-left: 105px;
+}
+
