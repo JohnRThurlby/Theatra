@@ -96,6 +96,18 @@
 
                     <h4>Plot:</h4><p id="movieOverview"></p>
                     <button type="submit" class="btn btn-primary" id="addTowish">Add to wishlist</button>
+                    <div id="wishList" style="display: none" align="center" background-color="green">
+                        <p>Movie already exists in your wishlist.</p>
+                        <div class="modal-footer">
+                            <button onclick="wishList" class="btn btn-default closeButton" data-dismiss="wishList">Close</button>
+                        </div>
+                    </div> <!-- end the dialog div  -->
+                    <div id="wishListadd" style="display: none" align="center" background-color="green">
+                        <p>Movie added to your wishlist.</p>
+                        <div class="modal-footer">
+                            <button onclick="wishListadd" class="btn btn-default closeButton" data-dismiss="wishListadd">Close</button>
+                        </div>
+                    </div> <!-- end the dialog div  -->
                     
                 </div> <!-- end form-group col-md- -->  
 

@@ -591,33 +591,49 @@ $("#addTowish").on("click", function(e){
 
     var urlParams = new URLSearchParams(window.location.search);
     var movieReq = urlParams.get('id');
-    var userId = urlParams.get('user');  
+    var userId = urlParams.get('user'); 
+    var wishListfound = true
+        console.log("user " + userId)
+        console.log(wishListfound)
      
     wishRef.on("value", function(snapshot) {
         var wishlistArr = snapshotToArray(snapshot)
-       
-        for (i=0; i < wishlistArr.length; i++)
-           {
-            if (wishlistArr[i].movieId === movieReq) {
-                //dialogTitle = "Wishlist"
-                //dialogItem = "#wishList"
-                //displayPopup()
-                return false; // added so user cannot add a blank start time and must be a valid 24:00 time format
-           }
+        if (wishListfound == true) {
+            for ( i = 0; i < wishlistArr.length; i++)
+            {
+                
+                if (wishlistArr[i].userId === userId) {
+                    console.log("wish " + wishlistArr[i].userId)
+                    console.log("wish " + wishlistArr[i].movieId)
+                
+                    if (wishlistArr[i].movieId === movieReq) {
+                        dialogTitle = "Wishlist"
+                        dialogItem = "#wishList"
+                        displayPopup()
+                        wishListfound = false
+                        
+                    }   
+                }
+            }
+            console.log(wishListfound)
+            if ( wishListfound == true) {
+                wishListfound = false
+
+                dataRef.ref("/users/wishList").push({
+                userId: userId,
+                movieId: movieReq                     
+            });
+            
+            dialogTitle = "Wishlist"
+            dialogItem = "#wishListadd"
+            displayPopup()
+            
+            }
         }
         }, function (error) {
        console.log("Error: " + error.code);
     });
-    
-
-    
-    dataRef.ref("/users/wishList").push({
-        userId: userId,
-        movieId: movieReq                     
-    });
-
-    
-    
+  
 });
 
 $("#ticketPurchase").on("click", function(e){
@@ -641,21 +657,6 @@ function snapshotToArray(snapshot) {
     return returnArr;
 };
 
-function getwishList () {
-
-    wishRef.on("value", function(snapshot) {
-        var wishArr = snapshotToArray(snapshot)
-        for (i=0; i < wishArr.length; i++) {
-            if (wishArr[i].userId = userReq) {
-                listArr[i] = wishArr[i].movieId
-                
-            }
-        }
-        }, function (error) {
-        console.log("Error: " + error.code);
-     });
-    } 
-    
 function getmovieTimes () {
 
     var cinemaMovieid = " " 
@@ -684,6 +685,7 @@ function getmovieTimes () {
             console.log("HTTP Request Succeeded: " + jqXHR.status);
             
             showMovieid = data.movies[0].id
+            
            
             $.ajax({
                 url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/showtimes/",
@@ -700,7 +702,8 @@ function getmovieTimes () {
                 })
                 .done(function(data, textStatus, jqXHR) {
                     console.log("HTTP Request Succeeded: " + jqXHR.status);
-                                       
+                    if (data.showtimes.length === 0) { 
+                        return}                  
                     cinemaMovieid = data.showtimes[0].cinema_id
                     cinemaCount = 0
                     for (i=0; i < data.showtimes.length; i++){
