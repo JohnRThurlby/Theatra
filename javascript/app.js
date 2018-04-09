@@ -639,7 +639,6 @@ function getmovieTimes () {
 
     var cinemaMovieid = " " 
     var showtimes = [[]]
-
     var movieTheaname = " " 
     var movieTel = " "
     var movieAddress = " "
@@ -665,7 +664,7 @@ function getmovieTimes () {
             
             showMovieid = data.movies[0].id
             
-           //  get showtimes based on movie id, this ald+so returns cinema id
+           //  get showtimes based on movie id and location(lat/long), this also returns cinema id
             $.ajax({
                 url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/showtimes/",
                 type: "GET",
@@ -682,29 +681,32 @@ function getmovieTimes () {
                 .done(function(data, textStatus, jqXHR) {
                     console.log("HTTP Request Succeeded: " + jqXHR.status);
                     
+                     //  nothing returned so set msg
                     if (data.showtimes.length === 0) { 
                         $("#theaterName0").text("Movie not in theaters")
-
                         return}                  
                    
-                        cinemaMovieid = data.showtimes[0].cinema_id
+                    cinemaMovieid = data.showtimes[0].cinema_id
                     cinemaCount = 0
+
+                      //  store movie times based on match with movie
                     for (i=0; i < data.showtimes.length; i++){
                         var theResults = new Array(); 
+                        // store movird id and start time
                         theResults[0] = data.showtimes[i].cinema_id
                         theResults[1] = data.showtimes[i].start_at
                         theResultsMulti.push(theResults); 
+
+                        // only store new cinema ids in array. makes processing easier later on. 
                         if (i > 0) {
                             if (data.showtimes[i].cinema_id !== data.showtimes[i-1].cinema_id) {
                             
                             cinemasId[cinemaCount] = data.showtimes[i].cinema_id
                             cinemaCount++
-                        }
+                            }
                         } 
-                                   
                     }
-                                             
-                                 
+                     //  store cinema info to dosplay on page                        
                     $.ajax({
                         url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/cinemas/",
                         type: "GET",
@@ -719,6 +721,7 @@ function getmovieTimes () {
                             console.log("HTTP Request Succeeded: " + jqXHR.status);
                             
                             cinemaCount = 0
+                            // create cinema object with addr, name, tel, location
                             for (j=0; j < data.cinemas.length; j++){
                                 if (cinemasId[cinemaCount] == data.cinemas[j].id) {
 
@@ -729,22 +732,23 @@ function getmovieTimes () {
                                     theCinemas[3] = data.cinemas[j].location.address.display_text
                                     theCinemas[4] = data.cinemas[j].location.lat
                                     theCinemas[5] = data.cinemas[j].location.lon
-                                    console.log("results " + theCinemas)
                                     theResultsCinema.push(theCinemas);
                                     cinemaCount++                                   
-                            }}
+                               }
+                            }
                             
-                            
-                                                        
+                            // output cinema object to page
                             for (i=0; i < theResultsCinema.length; i++ ){
                                 
                                 $("#theaterName" + i).text(theResultsCinema[i][1]);
                                 $("#theaterTel" + i).text(theResultsCinema[i][2]);
                                 $("#theaterAddr" + i).text(theResultsCinema[i][3])
+                                //Pin on google map for first movie theater
                                 if (i === 0){
-                                googleLat = theResultsCinema[i][4]
-                                googleLong = theResultsCinema[i][5]
-                                initMap() }                                  
+                                  googleLat = theResultsCinema[i][4]
+                                  googleLong = theResultsCinema[i][5]
+                                  initMap()
+                                }                                  
                             }
                             
                         })
@@ -769,27 +773,22 @@ function getmovieTimes () {
         .always(function() {
             /* ... */
         });
-        
-        function initMap() {
-            var myLatLng = {lat: 13.345, lng: -81.4652321};
-            myLatLng.lat = googleLat   
-            myLatLng.lng = googleLong
-            console.log(myLatLng)
-            var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 15,
-              center: myLatLng
-            });
-    
-            var marker = new google.maps.Marker({
-              position: myLatLng,
-              map: map,
-              title: 'Cinemas'
-            });
-          }
-       
+    // function to pin googl map
+    function initMap() {
+        var myLatLng = {lat: 13.345, lng: -81.4652321};
+        myLatLng.lat = googleLat   
+        myLatLng.lng = googleLong
+        console.log(myLatLng)
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: myLatLng
+        });
 
-         
-         
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Cinemas'
+        });
+        }
     }
-    
 });
