@@ -416,13 +416,14 @@ function homePage(){
     wishRef.on("value", function(snapshot) {
 
        var wishArr = snapshotToArray(snapshot)
-       
+       // go thru users wishlist. 
        for (i=0; i < wishArr.length; i++) {
 
+        // must match userid 
           if (wishArr[i].userId === userReq) {
             
             listMovie = wishArr[i].movieId
-            
+            // retrieve movie info fro themoviedb for users wishlist. this gets one at a time.
             var queryWish = "https://api.themoviedb.org/3/movie/" + listMovie + "?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
             $.ajax({
             url: queryWish,
@@ -434,24 +435,20 @@ function homePage(){
            $("#arefW" + wishCount).attr("href", "ticket.html?id=" + response.id + "&user=" + userReq + "&zip=" + userZip)
            $("#imageW" + wishCount).attr("src", "http://image.tmdb.org/t/p/w185//" + response.poster_path ); 
            $("#imageW" + wishCount).addClass("image");
-
            wishCount++
-          
-           })
-            
-          }
+          })
+        }
       }
       }, function (error) {
        console.log("Error: " + error.code);
     });
-
+    // if users has less than 9 movie in wishlist, turn off carousel scrolling
     if ( wishCount < 9 ){ 
         $(".carousel-control-prev").empty()
         $(".carousel-control-next").empty()
         $("#carouselExampleIndicators1").attr("data-interval", "false")
-
     }
-
+ // retrieve movie info fro themoviedb for popular movies. returns first twenty
     var queryPopular = "https://api.themoviedb.org/3/movie/popular?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
         $.ajax({
         url: queryPopular,
@@ -459,70 +456,60 @@ function homePage(){
     }).then(function(response) {
                     
         var popular = response.results; //shows results of gifs
-       
+       // assign 16 to carousel so have full carousels
         for (var i=0; i < 16; i++){
            $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id + "&user=" + userReq + "&zip=" + userZip)
            $("#imageT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + popular[i].poster_path ); 
            $("#imageT" + i).addClass("image");
-            
         }
        })
-               
+    // retrieve movie info fro themoviedb for now playing.  returns first twenty         
     var queryCurrent = "https://api.themoviedb.org/3/movie/now_playing?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
         $.ajax({
         url: queryCurrent,
         method: "GET"
     }).then(function(response) {
-
-        
-
+  
         var current = response.results; //shows results of gifs
+         // assign 16 to carousel so have full carousels
         for (var i=0; i < 16; i++){
             $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id + "&user=" + userReq + "&zip=" + userZip)
             $("#imageIT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + current[i].poster_path ); 
             $("#imageIT" + i).addClass("image");
-           
-         }
-                                    
-       
+        }
     })
-
+// retrieve movie info fro themoviedb for upcoming movies. returns first twenty
         var queryUpcoming = "https://api.themoviedb.org/3/movie/upcoming?api_key=e29e30cbc015e5cd2ae3c7bf52b68816&language=en-US&page=1";
         $.ajax({
         url: queryUpcoming,
         method: "GET"
     }).then(function(response) {
-
-        
-
+       
         var upComing = response.results; //shows results of gifs
 
-       
+        // assign 16 to carousel so have full carousels
         for (var i=0; i < 16; i++){
             $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id + "&user=" + userReq + "&zip=" + userZip)
             $("#imageU" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + upComing[i].poster_path ); 
             $("#imageU" + i).addClass("image");
-           
-         }
-                               
-      
+        }
     })
-
    };
-
+// function for ticket page
 function ticketPage() {
 
-    
+    // get info from url
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id'); 
     var userId = urlParams.get('user');
     var userZip = urlParams.get('zip');  
-    
+    //hide buttons if possibly no data to display. Temp disabled 
     for (i=0; i < 6; i++ ){
         $("#ticketPurchase" + i).hide()
         $("#dropdownMenuButton" + i).hide()
-         
     }
+
+    //get user requested movie
     var queryMovie = "https://api.themoviedb.org/3/movie/" + movieId + "?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
     
         $.ajax({
@@ -530,14 +517,14 @@ function ticketPage() {
         method: "GET"
     }).then(function(response) {
        
+        //assign title and runtime
         $("#movieTitle").text("Title: " + response.original_title)
         $("#movieRuntime").text("Run time: " + response.runtime)
-    
+    //t+ssign movie if+d from imdb
         imdbId = response.imdb_id
-        
-    
+            
         $("#movieOverview").text(response.overview)
-    
+    //get the youtube video to populate on trailer section
         var queryTrailer = "https://api.themoviedb.org/3/movie/" + movieId + "/videos?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
     
         $.ajax({
@@ -549,13 +536,11 @@ function ticketPage() {
         
         })
 
-        
+        //get the youtube video to populate on trailer section
         var googleAPI = "https://cors-anywhere.herokuapp.com/maps.googleapis.com/maps/api/geocode/json?/key=AIzaSyALrGs-INdG9Kio-Hhe56cxhY8atmBopz";
         var zipLookup = userZip
         
-        console.log(zipLookup);
-
-        //query the API
+        //query the API to get latitude and longitude based on zip code
         $.getJSON( googleAPI, {
             address: zipLookup,
             sensor: "false"
@@ -565,7 +550,7 @@ function ticketPage() {
             //append the FORMATTED ADDRESS            
             latitude = data.results[0].geometry.location.lat            
             longitude = data.results[0].geometry.location.lng
-
+            // get movie info for cinemas and showtimes
             getmovieTimes()
 
         })
@@ -574,18 +559,10 @@ function ticketPage() {
             console.log(error);
             
         });
+      });
   
-        console.log("location " + latLong)
-                
-        
-                
-    });
-       
-        
-    
-    
 }
-
+// add to users wishlist if they pressed the wishlist button
 $("#addTowish").on("click", function(e){
     event.preventDefault();
 
@@ -593,19 +570,20 @@ $("#addTowish").on("click", function(e){
     var movieReq = urlParams.get('id');
     var userId = urlParams.get('user'); 
     var wishListfound = true
-        console.log("user " + userId)
-        console.log(wishListfound)
-     
+        
+    //get uwishlist from db 
     wishRef.on("value", function(snapshot) {
         var wishlistArr = snapshotToArray(snapshot)
+
+        //users wishlist not found yet. added to stop from child added situation
         if (wishListfound == true) {
+            //loop thru wishlist
             for ( i = 0; i < wishlistArr.length; i++)
             {
-                
+                // wishlist userid matches current userid
                 if (wishlistArr[i].userId === userId) {
-                    console.log("wish " + wishlistArr[i].userId)
-                    console.log("wish " + wishlistArr[i].movieId)
-                
+                   
+                //match on users selected movie, so popup for already exists
                     if (wishlistArr[i].movieId === movieReq) {
                         dialogTitle = "Wishlist"
                         dialogItem = "#wishList"
@@ -615,7 +593,7 @@ $("#addTowish").on("click", function(e){
                     }   
                 }
             }
-            console.log(wishListfound)
+            //no match on users selected movie, so add movie to wishlist and popup for added
             if ( wishListfound == true) {
                 wishListfound = false
 
@@ -635,7 +613,7 @@ $("#addTowish").on("click", function(e){
     });
   
 });
-
+//function to add ticket via fandnago if we had the time
 $("#ticketPurchase").on("click", function(e){
     event.preventDefault();
 
@@ -644,7 +622,7 @@ $("#ticketPurchase").on("click", function(e){
     // window.location = 'https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&date=06-14-2011+21:50'
              
 });
-
+// function change snapshot into object
 function snapshotToArray(snapshot) {
     var returnArr = []
     snapshot.forEach(function(childSnapshot) {
@@ -656,7 +634,7 @@ function snapshotToArray(snapshot) {
 
     return returnArr;
 };
-
+// function  to get mi+ovie theaters and showtimes from international showtimes movie api
 function getmovieTimes () {
 
     var cinemaMovieid = " " 
@@ -670,6 +648,7 @@ function getmovieTimes () {
     var cinemaCount = 0
     var cinemasId = []
 
+    //  get movie based on imDB movie id
     $.ajax({
         url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/movies/",
         type: "GET",
@@ -686,7 +665,7 @@ function getmovieTimes () {
             
             showMovieid = data.movies[0].id
             
-           
+           //  get showtimes based on movie id, this ald+so returns cinema id
             $.ajax({
                 url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/showtimes/",
                 type: "GET",
@@ -702,9 +681,13 @@ function getmovieTimes () {
                 })
                 .done(function(data, textStatus, jqXHR) {
                     console.log("HTTP Request Succeeded: " + jqXHR.status);
+                    
                     if (data.showtimes.length === 0) { 
+                        $("#theaterName0").text("Movie not in theaters")
+
                         return}                  
-                    cinemaMovieid = data.showtimes[0].cinema_id
+                   
+                        cinemaMovieid = data.showtimes[0].cinema_id
                     cinemaCount = 0
                     for (i=0; i < data.showtimes.length; i++){
                         var theResults = new Array(); 
