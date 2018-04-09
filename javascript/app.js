@@ -12,6 +12,7 @@ $(document).ready(function() {
         listArr =  []
         userReq = " " 
         userZip = " "
+        userPass = " " 
         loginError = false
         latLong = " "
         imdbId = " " 
@@ -108,7 +109,7 @@ $(function(){
      
       return false;
     });
-
+    // logon modal
     $(function() {
     
       var $formLogin = $('#login-form');
@@ -118,7 +119,7 @@ $(function(){
       var $modalAnimateTime = 300;
       var $msgAnimateTime = 150;
       var $msgShowTime = 2000;
-  
+        // user hits login, check user id and passowrd  against what is in local storage
       $("form").submit(function () {
           switch(this.id) {
               case "login-form":
@@ -127,41 +128,38 @@ $(function(){
                   var $lg_password=$('#login_password').val();
                   userpassCheck = $('#login_password').val();
                   loginError = false
-                  passZip = "32811"
 
-                  userRef.on("value", function(data) {
- 
-                    if (usernameCheck != data.val().userId){
-                       
-                        loginError = true
-                    }
-                    if (userpassCheck != data.val().userPassword){
-                       
-                        loginError = true
-                    }
-                    
-                    return loginError;
-                   }, function (error) {
-                    console.log("Error: " + error.code);
-                 });
-                       
+                  userReq = localStorage.getItem('userid');
+                  userPass = localStorage.getItem('password');
+                         
+                // check userid and password
+                  if (usernameCheck != userReq){
+                    loginError = true
+                  }
+                  if (userpassCheck != userPass){
+                     loginError = true
+                  }
+                  
+                  // no match on either, so show error
                   if (loginError == true) {
                   
                       msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", "Login error");
                   } else {
                       
-                      window.location.href = "Home.html?user=" + usernameCheck + "&zip=" + passZip 
+                    //good userid, password, so go to main movie carousel page
+                      window.location.href = "Home.html" 
                                             
                      // msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                   }
                   return false;
                   break;
+                  // lost email. reuires emai to be populated
               case "lost-form":
                   var $ls_email=$('#lost_email').val();
                   if ($ls_email == "ERROR") {
                       msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "error", "glyphicon-remove", "Send error");
                   } else {
-                      msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Send OK");
+                                          msgChange($('#div-lost-msg'), $('#icon-lost-msg'), $('#text-lost-msg'), "success", "glyphicon-ok", "Send OK");
                   }
                   return false;
                   break;
@@ -227,12 +225,7 @@ $(function(){
 $("#backBtn").on("click", function(event){
 
     event.preventDefault();
-
-    // pass back variables in url
-    var urlParams = new URLSearchParams(window.location.search);
-    var userId = urlParams.get('user');
-    var userZip = urlParams.get('zip'); 
-    window.location.href = "Home.html?user=" + userId + "&zip=" + userZip  
+    window.location.href = "Home.html"  
 
 });
 
@@ -382,7 +375,10 @@ $("#signUp").on("click", function(event){
     $("#inputPassword42").val("");
 
     // Go to main page
-    window.location.href = "Home.html?user=" + userName + "&zip=" + userZip
+    localStorage.setItem('userid', userName);
+    localStorage.setItem('zipcode', userZip);
+    localStorage.setItem('password', userPass1);
+    window.location.href = "Home.html"
       
 });
 
@@ -403,11 +399,12 @@ function displayPopup() {
 // main movie page function
 function homePage(){
 
-    //get user id and zip from url
-    var urlParams = new URLSearchParams(window.location.search);
-    userReq = urlParams.get('user'); 
-    userZip = urlParams.get('zip');
-    
+    //get user id and zip from local storage
+    userReq = localStorage.getItem('userid');
+    userZip = localStorage.getItem('zipcode');
+    console.log("from local " + userReq)
+    console.log("from local " + userZip)
+
     var wishCount = 0
     var listMovie = " "
     wishArr = " " 
@@ -429,13 +426,13 @@ function homePage(){
             url: queryWish,
             method: "GET"
             }).then(function(response) {
-            
-            console.log(response)
+            // add movieid to local storage
+            localStorage.setItem('movie', response.id);
          
-           $("#arefW" + wishCount).attr("href", "ticket.html?id=" + response.id + "&user=" + userReq + "&zip=" + userZip)
-           $("#imageW" + wishCount).attr("src", "http://image.tmdb.org/t/p/w185//" + response.poster_path ); 
-           $("#imageW" + wishCount).addClass("image");
-           wishCount++
+            $("#arefW" + wishCount).attr("href", "ticket.html?id=" + response.id) 
+            $("#imageW" + wishCount).attr("src", "http://image.tmdb.org/t/p/w185//" + response.poster_path ); 
+            $("#imageW" + wishCount).addClass("image");
+            wishCount++
           })
         }
       }
@@ -458,7 +455,7 @@ function homePage(){
         var popular = response.results; //shows results of gifs
        // assign 16 to carousel so have full carousels
         for (var i=0; i < 16; i++){
-           $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id + "&user=" + userReq + "&zip=" + userZip)
+           $("#arefT" + i).attr("href", "ticket.html?id=" + popular[i].id)
            $("#imageT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + popular[i].poster_path ); 
            $("#imageT" + i).addClass("image");
         }
@@ -473,7 +470,7 @@ function homePage(){
         var current = response.results; //shows results of gifs
          // assign 16 to carousel so have full carousels
         for (var i=0; i < 16; i++){
-            $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id + "&user=" + userReq + "&zip=" + userZip)
+            $("#arefIT" + i).attr("href", "ticket.html?id=" + current[i].id)
             $("#imageIT" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + current[i].poster_path ); 
             $("#imageIT" + i).addClass("image");
         }
@@ -489,7 +486,7 @@ function homePage(){
 
         // assign 16 to carousel so have full carousels
         for (var i=0; i < 16; i++){
-            $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id + "&user=" + userReq + "&zip=" + userZip)
+            $("#arefU" + i).attr("href", "ticket.html?id=" + upComing[i].id)
             $("#imageU" + i).attr("src", "http://image.tmdb.org/t/p/w185//" + upComing[i].poster_path ); 
             $("#imageU" + i).addClass("image");
         }
@@ -498,11 +495,13 @@ function homePage(){
 // function for ticket page
 function ticketPage() {
 
-    // get info from url
+    // get info from loacl storage
+    userId = localStorage.getItem('userid');
+    userZip = localStorage.getItem('zipcode');
     var urlParams = new URLSearchParams(window.location.search);
     var movieId = urlParams.get('id'); 
-    var userId = urlParams.get('user');
-    var userZip = urlParams.get('zip');  
+    
+   
     //hide buttons if possibly no data to display. Temp disabled 
     for (i=0; i < 6; i++ ){
         $("#ticketPurchase" + i).hide()
@@ -566,9 +565,10 @@ function ticketPage() {
 $("#addTowish").on("click", function(e){
     event.preventDefault();
 
+    userId = localStorage.getItem('userid');
     var urlParams = new URLSearchParams(window.location.search);
     var movieReq = urlParams.get('id');
-    var userId = urlParams.get('user'); 
+      
     var wishListfound = true
         
     //get uwishlist from db 
@@ -613,14 +613,11 @@ $("#addTowish").on("click", function(e){
     });
   
 });
-//function to add ticket via fandnago if we had the time
+//function to add ticket via fandango if we had the time
 $("#ticketPurchase").on("click", function(e){
     event.preventDefault();
-
-    
-
     // window.location = 'https://www.fandango.com/redirect.aspx?&mid=136253&a=11883&tid=AAKTZ&date=06-14-2011+21:50'
-             
+       
 });
 // function change snapshot into object
 function snapshotToArray(snapshot) {
@@ -774,21 +771,21 @@ function getmovieTimes () {
             /* ... */
         });
     // function to pin googl map
-    function initMap() {
-        var myLatLng = {lat: 13.345, lng: -81.4652321};
-        myLatLng.lat = googleLat   
-        myLatLng.lng = googleLong
-        console.log(myLatLng)
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: myLatLng
-        });
+function initMap() {
+    var myLatLng = {lat: 13.345, lng: -81.4652321};
+    myLatLng.lat = googleLat   
+    myLatLng.lng = googleLong
+    console.log(myLatLng)
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: myLatLng
+    });
 
-        var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: 'Cinemas'
-        });
-        }
+    var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'Cinemas'
+    });
     }
+}
 });
