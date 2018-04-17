@@ -22,6 +22,7 @@ $(document).ready(function() {
         passZip = " " 
         googleLat = " "
         googleLong = " " 
+        
            
         // Initialize Firebase
 	var config = {
@@ -495,7 +496,7 @@ function homePage(){
 // function for ticket page
 function ticketPage() {
 
-    // get info from loacl storage
+    // get info from local storage
     userId = localStorage.getItem('userid');
     userZip = localStorage.getItem('zipcode');
     var urlParams = new URLSearchParams(window.location.search);
@@ -506,6 +507,7 @@ function ticketPage() {
     for (i=0; i < 6; i++ ){
         $("#ticketPurchase" + i).hide()
         $("#dropdownMenuButton" + i).hide()
+        $("#ddlist" + i).hide()
     }
 
     //get user requested movie
@@ -643,6 +645,15 @@ function getmovieTimes () {
     var theResultsCinema = new Array()
     var cinemaCount = 0
     var cinemasId = []
+    var dateFormat = " "
+    var myLatLng = {lat: latitude, lng: longitude};
+    var googleDir = " "
+    var googleRepl = " "
+        
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: myLatLng
+    });
 
     //  get movie based on imDB movie id
     $.ajax({
@@ -685,21 +696,27 @@ function getmovieTimes () {
                    
                     cinemaMovieid = data.showtimes[0].cinema_id
                     cinemaCount = 0
+                    $("#ddlist" + "0").hide()
 
                       //  store movie times based on match with movie
                     for (i=0; i < data.showtimes.length; i++){
                         var theResults = new Array(); 
-                        // store movird id and start time
+                        // store movieid id and start time
                         theResults[0] = data.showtimes[i].cinema_id
                         theResults[1] = data.showtimes[i].start_at
+                                                
+                        dateFormat = moment(data.showtimes[i].start_at).format("llll")
+                        //$("<option>" + dateFormat + "</option>").appendTo("#ddlList0");   
+                        //showmovie times
+                        
+                        
                         theResultsMulti.push(theResults); 
-
                         // only store new cinema ids in array. makes processing easier later on. 
                         if (i > 0) {
                             if (data.showtimes[i].cinema_id !== data.showtimes[i-1].cinema_id) {
-                            
-                            cinemasId[cinemaCount] = data.showtimes[i].cinema_id
-                            cinemaCount++
+                               
+                                cinemasId[cinemaCount] = data.showtimes[i].cinema_id
+                                cinemaCount++
                             }
                         } 
                     }
@@ -733,21 +750,40 @@ function getmovieTimes () {
                                     cinemaCount++                                   
                                }
                             }
-                            
+                            console.log(theResultsCinema)
                             // output cinema object to page
-                            for (i=0; i < theResultsCinema.length; i++ ){
+                            for (i=0; i < theResultsCinema.length; i++ ){                               
                                 
-                                $("#theaterName" + i).text(theResultsCinema[i][1]);
-                                $("#theaterTel" + i).text(theResultsCinema[i][2]);
+                                $("#theaterName" + i).text(theResultsCinema[i][1]);                                
+                                $("#theaterTel" + i).text(theResultsCinema[i][2]);                                         
                                 $("#theaterAddr" + i).text(theResultsCinema[i][3])
+                                
                                 //Pin on google map for first movie theater
-                                if (i === 0){
-                                  googleLat = theResultsCinema[i][4]
-                                  googleLong = theResultsCinema[i][5]
-                                  initMap()
-                                }                                  
+                                //if (i === 0){
+                                var infowindow = new google.maps.InfoWindow({});
+                                myLatLng.lat = theResultsCinema[i][4]
+                                myLatLng.lng = theResultsCinema[i][5]
+                                                                     
+                                var marker = new google.maps.Marker({
+                                    position: myLatLng,
+                                    map: map,
+                                    title: theResultsCinema[i][1]
+                                });
+
+                                googleRepl = theResultsCinema[i][3].replace(/\s/g,'+');
+                                googleDir = '<a href="https://google.com/maps/dir//' + googleRepl + '">Get Directions</a>'
+                                movieTheaname = '<strong>' + theResultsCinema[i][1] + '</strong><br>' + theResultsCinema[i][3] + '<br>' + googleDir
+                                console.log(movieTheaname )
+
+                                google.maps.event.addListener(marker, 'click', (function (marker, movieTheaname ) {
+                                    return function () {
+                                        infowindow.setContent(movieTheaname);
+                                        infowindow.open(map, marker);
+                                    }
+                                })(marker, movieTheaname));
+                                //  initMap(myLatLng)
+                                //}  
                             }
-                            
                         })
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             console.log("HTTP Request Failed");
@@ -770,22 +806,25 @@ function getmovieTimes () {
         .always(function() {
             /* ... */
         });
-    // function to pin googl map
-function initMap() {
-    var myLatLng = {lat: 13.345, lng: -81.4652321};
-    myLatLng.lat = googleLat   
-    myLatLng.lng = googleLong
-    console.log(myLatLng)
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: myLatLng
-    });
-
-    var marker = new google.maps.Marker({
-        position: myLatLng,
-        map: map,
-        title: 'Cinemas'
-    });
     }
-}
+    // function to pin googl map
+    function initMap(myLatLng) {
+        
+        myLatLng.lat = googleLat   
+        myLatLng.lng = googleLong
+          
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: movieTheaname
+        });
+
+        //google.maps.event.addListener(marker, 'click', (function (marker) {
+		//	return function () {
+		//		infowindow.setContent(movieTheaname);
+		//		infowindow.open(map, marker);
+		//	}
+		//})(marker));
+    }
+
 });
