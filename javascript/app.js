@@ -403,8 +403,7 @@ function homePage(){
     //get user id and zip from local storage
     userReq = localStorage.getItem('userid');
     userZip = localStorage.getItem('zipcode');
-    console.log("from local " + userReq)
-    console.log("from local " + userZip)
+    
 
     var wishCount = 0
     var listMovie = " "
@@ -521,9 +520,9 @@ function ticketPage() {
         //assign title and runtime
         $("#movieTitle").text("Title: " + response.original_title)
         $("#movieRuntime").text("Run time: " + response.runtime)
-    //t+ssign movie if+d from imdb
+    //assign movie from imdb
         imdbId = response.imdb_id
-            
+                    
         $("#movieOverview").text(response.overview)
     //get the youtube video to populate on trailer section
         var queryTrailer = "https://api.themoviedb.org/3/movie/" + movieId + "/videos?language=en-US&api_key=e29e30cbc015e5cd2ae3c7bf52b68816";
@@ -557,8 +556,7 @@ function ticketPage() {
         })
         .fail(function( error ) {
             console.log("ERROR");
-            console.log(error);
-            
+                        
         });
       });
   
@@ -649,7 +647,10 @@ function getmovieTimes () {
     var myLatLng = {lat: latitude, lng: longitude};
     var googleDir = " "
     var googleRepl = " "
-        
+
+    var urlParams = new URLSearchParams(window.location.search);
+    // imdbId = urlParams.get('id'); 
+            
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
         center: myLatLng
@@ -670,6 +671,12 @@ function getmovieTimes () {
         .done(function(data, textStatus, jqXHR) {
             console.log("HTTP Request Succeeded: " + jqXHR.status);
             
+
+            if (data.movies.length === 0) { 
+                $("#theaterName0").text("No movie data available")
+                $("#map").empty()
+                return}
+
             showMovieid = data.movies[0].id
             
            //  get showtimes based on movie id and location(lat/long), this also returns cinema id
@@ -692,6 +699,7 @@ function getmovieTimes () {
                      //  nothing returned so set msg
                     if (data.showtimes.length === 0) { 
                         $("#theaterName0").text("Movie not in theaters")
+                        $("#map").empty()
                         return}                  
                    
                     cinemaMovieid = data.showtimes[0].cinema_id
@@ -706,7 +714,7 @@ function getmovieTimes () {
                         theResults[1] = data.showtimes[i].start_at
                                                 
                         dateFormat = moment(data.showtimes[i].start_at).format("llll")
-                        //$("<option>" + dateFormat + "</option>").appendTo("#ddlList0");   
+                        $("<option>" + dateFormat + "</option>").appendTo("#ddlList0");   
                         //showmovie times
                         
                         
@@ -720,7 +728,8 @@ function getmovieTimes () {
                             }
                         } 
                     }
-                     //  store cinema info to dosplay on page                        
+                     //  store cinema info to dosplay on page   
+                                     
                     $.ajax({
                         url: "https://cors-anywhere.herokuapp.com/api.internationalshowtimes.com/v4/cinemas/",
                         type: "GET",
@@ -733,8 +742,9 @@ function getmovieTimes () {
                         })
                         .done(function(data, textStatus, jqXHR) {
                             console.log("HTTP Request Succeeded: " + jqXHR.status);
-                            
+                            theResultsCinema.length = 0 
                             cinemaCount = 0
+                            
                             // create cinema object with addr, name, tel, location
                             for (j=0; j < data.cinemas.length; j++){
                                 if (cinemasId[cinemaCount] == data.cinemas[j].id) {
@@ -750,7 +760,7 @@ function getmovieTimes () {
                                     cinemaCount++                                   
                                }
                             }
-                            console.log(theResultsCinema)
+                            
                             // output cinema object to page
                             for (i=0; i < theResultsCinema.length; i++ ){                               
                                 
@@ -758,8 +768,7 @@ function getmovieTimes () {
                                 $("#theaterTel" + i).text(theResultsCinema[i][2]);                                         
                                 $("#theaterAddr" + i).text(theResultsCinema[i][3])
                                 
-                                //Pin on google map for first movie theater
-                                //if (i === 0){
+                                
                                 var infowindow = new google.maps.InfoWindow({});
                                 myLatLng.lat = theResultsCinema[i][4]
                                 myLatLng.lng = theResultsCinema[i][5]
@@ -773,7 +782,7 @@ function getmovieTimes () {
                                 googleRepl = theResultsCinema[i][3].replace(/\s/g,'+');
                                 googleDir = '<a href="https://google.com/maps/dir//' + googleRepl + '">Get Directions</a>'
                                 movieTheaname = '<strong>' + theResultsCinema[i][1] + '</strong><br>' + theResultsCinema[i][3] + '<br>' + googleDir
-                                console.log(movieTheaname )
+                                
 
                                 google.maps.event.addListener(marker, 'click', (function (marker, movieTheaname ) {
                                     return function () {
@@ -781,8 +790,7 @@ function getmovieTimes () {
                                         infowindow.open(map, marker);
                                     }
                                 })(marker, movieTheaname));
-                                //  initMap(myLatLng)
-                                //}  
+                               
                             }
                         })
                         .fail(function(jqXHR, textStatus, errorThrown) {
@@ -807,24 +815,5 @@ function getmovieTimes () {
             /* ... */
         });
     }
-    // function to pin googl map
-    function initMap(myLatLng) {
-        
-        myLatLng.lat = googleLat   
-        myLatLng.lng = googleLong
-          
-        var marker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: movieTheaname
-        });
-
-        //google.maps.event.addListener(marker, 'click', (function (marker) {
-		//	return function () {
-		//		infowindow.setContent(movieTheaname);
-		//		infowindow.open(map, marker);
-		//	}
-		//})(marker));
-    }
-
+    
 });
