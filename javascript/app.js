@@ -773,8 +773,6 @@ function getmovieTimes () {
                                 
                                 //showmovie times
                                 for (j = 0; j < theResultsMulti.length; j++ ) {
-                                    console.log("the results id " + theResultsCinema[i][0])
-                                    console.log("the results multi " + theResultsMulti[j][0])
                                     if (theResultsCinema[i][0] === theResultsMulti[j][0] ) {
                                         dateFormat = moment(theResultsMulti[j][1]).format("llll")
                                         $("<option>" + dateFormat + "</option>").appendTo("#ddlList" + i);
