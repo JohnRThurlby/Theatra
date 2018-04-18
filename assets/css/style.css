@@ -483,4 +483,22 @@ button.btn.btn-primary.btn-lg.btn-block {
     background-color: rgb(229, 227, 223);
     margin-left: 105px;
 }
+/* added by Rob */
+.dropdown0, .dropdown1, .dropdown2, .dropdown3, .dropdown4, .dropdown5 {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
