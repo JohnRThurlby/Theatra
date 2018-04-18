@@ -650,7 +650,7 @@ function getmovieTimes () {
     var googleDir = " "
     var googleRepl = " "
         
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
         center: myLatLng
     });
@@ -709,6 +709,8 @@ function getmovieTimes () {
                    
                     cinemaMovieid = data.showtimes[0].cinema_id
                     cinemaCount = 0
+                    theResultsMulti.length = 0
+                    cinemasId.length = 0
                    
 
                       //  store movie times based on match with movie
@@ -723,11 +725,14 @@ function getmovieTimes () {
                         // only store new cinema ids in array. makes processing easier later on. 
                         if (i > 0) {
                             if (data.showtimes[i].cinema_id !== data.showtimes[i-1].cinema_id) {
-                               
                                 cinemasId[cinemaCount] = data.showtimes[i].cinema_id
                                 cinemaCount++
                             }
                         } 
+                        else {
+                            cinemasId[cinemaCount] = data.showtimes[i].cinema_id
+                            cinemaCount++
+                        }
                     }
                      //  store cinema info to display on page   
                                      
