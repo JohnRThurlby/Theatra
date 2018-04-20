@@ -15,4 +15,34 @@ John R Thurlby, Backend and Team Lead
 
 Technologies used: HTML, CSS, Javascript, JQuery, Firebase, Bootstrap. 
 API's used: TheMovieDB, InternationalShowtimes, Google maps, Zippopotam. 
-Others: YouTube
+Video Software: YouTube
+
+Short videos showing app usage. 
+
+1. Welcome screen and login:
+
+![theatra](https://user-images.githubusercontent.com/33644735/39070474-8ec9c3c2-44b1-11e8-8626-26b5645ba5f1.gif)
+
+
+
+
+Software used: 
+
+<img src="/html.png" width="256" height="256" title="HTML 5"><img src="/html.png" width="256" height="256" title="HTML 5">  <img src="/css.png" width="256" height="256" title="CSS 3"><img src="/css.png" width="256" height="256" title="CSS 3">
+
+<img src="/javascript.png" width="256" height="256" title="Javascript"><img src="/javascript.png" width="256" height="256" title="Javascript"> <img src="/jquery.gif" width="256" height="256" title="JQuery"><img src="/jquery.gif" width="256" height="256" title="Jquery">
+
+<img src="/firebase.png" width="256" height="256" title="Firebase"><img src="/firebase.png" width="256" height="256" title="Firebase"> <img src="/bootstrap.png" width="256" height="256" title="Bootstrap"><img src="/bootstrap.png" width="256" height="256" title="Bootstrap">
+
+
+
+API's used:
+
+<img src="/moviedb.png" width="256" height="256" title="TheMovieDB API">   <img src="/intshow.png" width="256" height="256" title="InternationShowTimes API">
+
+<img src="/googlemaps.png" width="256" height="256" title="Google Maps API">   <img src="/zippopot.jpg" width="256" height="256" title="Zippopotam API">
+
+Video Software:
+
+<img src="/youtube.png" width="256" height="256" title="YouTube">
+
