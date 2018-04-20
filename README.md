@@ -28,21 +28,21 @@ Short videos showing app usage.
 
 Software used: 
 
-<img src="/html.png" width="256" height="256" title="HTML 5"><img src="/html.png" width="256" height="256" title="HTML 5">  <img src="/css.png" width="256" height="256" title="CSS 3"><img src="/css.png" width="256" height="256" title="CSS 3">
+<img src="assets/images/html.png" width="256" height="256" title="HTML 5"> <img src="assets/images/css.png" width="256" height="256" title="CSS 3">
 
-<img src="/javascript.png" width="256" height="256" title="Javascript"><img src="/javascript.png" width="256" height="256" title="Javascript"> <img src="/jquery.gif" width="256" height="256" title="JQuery"><img src="/jquery.gif" width="256" height="256" title="Jquery">
+<img src="assets/images/javascript.png" width="256" height="256" title="Javascript"> <img src="assets/images/jquery.gif" width="256" height="256" title="JQuery">
 
-<img src="/firebase.png" width="256" height="256" title="Firebase"><img src="/firebase.png" width="256" height="256" title="Firebase"> <img src="/bootstrap.png" width="256" height="256" title="Bootstrap"><img src="/bootstrap.png" width="256" height="256" title="Bootstrap">
+<img src="assets/images/firebase.png" width="256" height="256" title="Firebase"> <img src="assets/images/bootstrap.png" width="256" height="256" title="Bootstrap">
 
 
 
 API's used:
 
-<img src="/moviedb.png" width="256" height="256" title="TheMovieDB API">   <img src="/intshow.png" width="256" height="256" title="InternationShowTimes API">
+<img src="assets/images/moviedb.png" width="256" height="256" title="TheMovieDB API">   <img src="assets/images/intshow.png" width="256" height="256" title="InternationShowTimes API">
 
-<img src="/googlemaps.png" width="256" height="256" title="Google Maps API">   <img src="/zippopot.jpg" width="256" height="256" title="Zippopotam API">
+<img src="assets/images/googlemaps.png" width="256" height="256" title="Google Maps API">   <img src="assets/images/zippopot.jpg" width="256" height="256" title="Zippopotam API">
 
 Video Software:
 
-<img src="/youtube.png" width="256" height="256" title="YouTube">
+<img src="assets/images/youtube.png" width="256" height="256" title="YouTube">
 
