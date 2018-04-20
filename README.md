@@ -23,24 +23,28 @@ Short videos showing app usage.
 
 ![theatra](https://user-images.githubusercontent.com/33644735/39070474-8ec9c3c2-44b1-11e8-8626-26b5645ba5f1.gif)
 
+2. Movie selection page:
 
+![theatra-1](https://user-images.githubusercontent.com/33644735/39072073-4fa95364-44b7-11e8-8c64-61a842175eb2.gif)
+
+3. WishList page:
+
+![theatra-2](https://user-images.githubusercontent.com/33644735/39072093-6729283e-44b7-11e8-8618-b0eab3dfadb7.gif)
 
 
 Software used: 
 
-<img src="assets/images/html.png" width="256" height="256" title="HTML 5"> <img src="assets/images/css.png" width="256" height="256" title="CSS 3">
+<img src="assets/images/html.png" width="256" height="256" title="HTML 5"> <img src="assets/images/css.png" width="256" height="256" title="CSS 3"> <img src="assets/images/javascript.png" width="256" height="256" title="Javascript">
 
-<img src="assets/images/javascript.png" width="256" height="256" title="Javascript"> <img src="assets/images/jquery.gif" width="256" height="256" title="JQuery">
-
-<img src="assets/images/firebase.png" width="256" height="256" title="Firebase"> <img src="assets/images/bootstrap.png" width="256" height="256" title="Bootstrap">
+ <img src="assets/images/jquery.gif" width="256" height="256" title="JQuery"> <img src="assets/images/firebase.png" width="256" height="256" title="Firebase"> <img src="assets/images/bootstrap.png" width="256" height="256" title="Bootstrap">
 
 
 
 API's used:
 
-<img src="assets/images/moviedb.png" width="256" height="256" title="TheMovieDB API">   <img src="assets/images/intshow.png" width="256" height="256" title="InternationShowTimes API">
+<img src="assets/images/moviedb.png" width="256" height="256" title="TheMovieDB API">   <img src="assets/images/intshow.png" width="256" height="256" title="InternationShowTimes API"> <img src="assets/images/googlemaps.png" width="256" height="256" title="Google Maps API">
 
-<img src="assets/images/googlemaps.png" width="256" height="256" title="Google Maps API">   <img src="assets/images/zippopot.jpg" width="256" height="256" title="Zippopotam API">
+<img src="assets/images/zippopot.jpg" width="256" height="256" title="Zippopotam API">
 
 Video Software:
 
