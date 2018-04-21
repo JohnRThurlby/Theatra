@@ -1,7 +1,7 @@
 # Theatra
 Theatra is a movie app, when user inputs their zip code, the user will then see what’s trending and upcoming movies in their location. User can watch movie trailers. User can also save upcoming movies into their Wishlist. Theatra accommodates the language to be suitable for the user as well.
 
-Visit the application at (https://johnrthurlby.github.io/Theatra/)
+[Theatra](https://johnrthurlby.github.io/Theatra/)
 
 1. User sees a welcome page. 
 2. Upon entering, it either takes them to a page that displays their widhlist, trnding, upcoming, and in theater movies. 
